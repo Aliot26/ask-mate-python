@@ -47,11 +47,11 @@ def route_question(question_id: int):
         return redirect('/')
 
     question = data_manager.get_one_question(question_id)
-    answer = data_manager.get_one_answer(question_id)
+    answers = data_manager.get_answers(question_id)
 
     return render_template('list.html',
                            question=question,
-                           answer=answer,
+                           answers=answers,
                            form_url=url_for('route_question', question_id=question_id),
                            page_title='Question'
                            )
