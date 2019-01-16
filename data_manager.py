@@ -18,8 +18,17 @@ def add_one_question(question):
     connection.save_data_in_csvfile(connection.QUESTION_FILE_PATH, question, connection.QUESTION_HEADER)
 
 
+def add_one_answer(answer):
+    all_data = connection.get_all_data(connection.ANSWER_FILE_PATH)
+    answer['id'] = get_next_id(all_data)
+    answer['submission_time'] = util.generate_timestamp()
+    connection.save_data_in_csvfile(connection.ANSWER_FILE_PATH, answer, connection.ANSWER_HEADER)
+
+
 def get_one_question(question_id):
     all_data = connection.get_all_data(connection.QUESTION_FILE_PATH)
     for record in all_data:
         if record['id'] == question_id:
             return record
+
+
