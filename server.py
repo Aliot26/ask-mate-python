@@ -33,9 +33,30 @@ def route_add_question():
                            )
 
 
-@app.route('/question/<question_id>')
-def route_question():
-    pass
+@app.route('/question/<question_id>', methods=['GET', 'POST'])
+def route_question(question_id: int):
+    if request.method == 'POST':
+        if request.form.get('id') != question_id:
+            raise ValueError('The ID is not valid')
+
+        answer = {
+            'id': request.form.get('id'),
+            'question_id': question_id,
+            'message': request.form.get('message')
+        }
+
+        data_manager.add_answer(answer)
+        return redirect('/')
+
+    question = data_manager.get_one_question(question_id)
+    answer = data_manager.get_one_answer(question_id)
+
+    return render_template('list.html',
+                           question=question,
+                           answer=answer,
+                           form_url=url_for('route_question', question_id=question_id),
+                           page_title='Question'
+                           )
 
 
 @app.route('/question/<question_id>/new-answer')
