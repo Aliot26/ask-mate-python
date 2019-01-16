@@ -14,9 +14,23 @@ def route_list():
                            all_questions=all_questions)
 
 
-@app.route('/add-question')
+@app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
-    pass
+    if request.method == 'POST':
+        question = {
+            'title': request.form.get('title'),
+            'message': request.form.get('message'),
+            'image': request.form.get('image')
+        }
+
+        data_manager.add_question(question)
+        return redirect('/')
+
+    return render_template('edit.html',
+                           form_url=url_for('route_add_question'),
+                           page_title='Add Question',
+                           button='Add'
+                           )
 
 
 @app.route('/question/<question_id>')
