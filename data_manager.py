@@ -1,5 +1,4 @@
 import uuid
-import csv
 import connection
 import util
 
@@ -12,16 +11,15 @@ def get_next_id(list_of_dict):
     return str(new_id)
 
 
-def get_one_question(question_id):
-    with open(connection.QUESTION_FILE_PATH, newline='') as file:
-        reader = csv.DictReader(file)
-        for record in reader:
-            if record['id'] == question_id:
-                return record
-
-
 def add_one_question(question):
     all_data = connection.get_all_data(connection.QUESTION_FILE_PATH)
     question['id'] = get_next_id(all_data)
     question['submission_time'] = util.generate_timestamp()
     connection.save_data_in_csvfile(connection.QUESTION_FILE_PATH, question, connection.QUESTION_HEADER)
+
+
+def get_one_question(question_id):
+    all_data = connection.get_all_data(connection.QUESTION_FILE_PATH)
+    for record in all_data:
+        if record['id'] == question_id:
+            return record
