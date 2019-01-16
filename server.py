@@ -45,7 +45,7 @@ def route_question(question_id: int):
             'message': request.form.get('message')
         }
 
-        data_manager.add_answer(answer)
+        data_manager.add_one_answer(answer)
         return redirect('/')
 
     question = data_manager.get_one_question(question_id)
