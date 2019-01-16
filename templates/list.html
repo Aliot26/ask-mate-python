@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}  <!-- extends to parent template -->
+{% block content %}
 
-</body>
-</html>
+<a href="/list">Home</a>
+&nbsp;
+<a href="/ask">Ask question </a> <br><br>
+
+    <table style="width:70%">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Author</th>
+            <th scope="col">Title</th>
+        </tr>
+        </thead>
+        <!-- table rows -->
+        {% for dict_item in all_questions %}
+        <tr>
+            {% for value in dict_item.values() %}
+            <td> {{ value }} </td>
+            {% endfor %}
+        </tr>git
+        {% endfor %}
+    </table>
+
+{% endblock%}
