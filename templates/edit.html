@@ -1,27 +1,29 @@
 {% extends "layout.html" %}  <!-- parent template -->
 {% block content %}
-<h1>Ask question</h1><br>
-<a href="/list">Home</a>
-
-<p>Add your question:</p>
+<br>
 
 <div class="container">
 
-<form action="/add question" method="post">
+<form action="/add-question" method="post">
         <p><label for="title">Title:</label><br>
-            <textarea id="title" name="title" placeholder="min 5 characters" rows="1" cols="40" type="text" required=on minlength="5"></textarea></p>
+            <textarea id="title" name="title" placeholder="Make it short and concrete!" rows="1" cols="40" type="text" required=on ></textarea></p>
 
-        <p><label for="story">Your question:</label><br>
-            <textarea id="story" name="story" placeholder="Required..." rows="5" cols="60" required=on></textarea></p>
+        <p><label for="message">Your question:</label><br>
+            <textarea id="message" name="message" placeholder="Enter your detailed question" rows="5" cols="60" required=on></textarea></p>
 
-        <p><label for="criteria">Image:</label><br>
-            <textarea id="criteria" name="acceptance_criteria" placeholder="Required..."rows="4" cols="60" required="on"></textarea></p>
+        <div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Upload</span>
+  </div>
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" name='image' id="inputGroupFile01">
+    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+  </div>
+</div>
 
-         min="100" max="1500" step="100"></textarea></p>
 
-
-            <button type="submit">Submit your question</button>
-        </form>
+    <button type="submit">Submit your question</button>
+</form>
 </div>
 
 {% endblock %}
