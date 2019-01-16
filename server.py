@@ -19,11 +19,10 @@ def route_add_question():
     if request.method == 'POST':
         question = {
             'title': request.form.get('title'),
-            'message': request.form.get('message'),
-            'image': request.form.get('image')
+            'message': request.form.get('message')
         }
 
-        data_manager.add_question(question)
+        data_manager.add_one_question(question)
         return redirect('/')
 
     return render_template('edit.html',
@@ -71,12 +70,3 @@ if __name__ == '__main__':
         port=8000,
         debug=True,
     )
-
-
-
-    # all_questions = [{'id': 0, 'submission_time': 1493368154, 'view_number': 29, 'vote_number': 7,
-    #                   'title': 'How to make lists in Python?', 'message': 'I am totally new to this, any hints?',
-    #                   'image': ''},
-    #                  {'id': 1, 'submission_time': 1493068124, 'view_number': 15, 'vote_number': 9,
-    #                   'title': "Wordpress loading multiple jQuery Versions",
-    #                   'message': "I developed a plugin that uses the jquery booklet plugin this plu.", 'image': ''}]
