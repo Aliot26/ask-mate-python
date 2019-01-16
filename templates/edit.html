@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}  <!-- parent template -->
+{% block content %}
+<h1>Ask question</h1><br>
+<a href="/list">Home</a>
 
-</body>
-</html>
+<p>Add your question:</p>
+
+<div class="container">
+
+<form action="/add question" method="post">
+        <p><label for="title">Title:</label><br>
+            <textarea id="title" name="title" placeholder="min 5 characters" rows="1" cols="40" type="text" required=on minlength="5"></textarea></p>
+
+        <p><label for="story">Your question:</label><br>
+            <textarea id="story" name="story" placeholder="Required..." rows="5" cols="60" required=on></textarea></p>
+
+        <p><label for="criteria">Image:</label><br>
+            <textarea id="criteria" name="acceptance_criteria" placeholder="Required..."rows="4" cols="60" required="on"></textarea></p>
+
+         min="100" max="1500" step="100"></textarea></p>
+
+
+            <button type="submit">Submit your question</button>
+        </form>
+</div>
+
+{% endblock %}
