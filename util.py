@@ -1,4 +1,5 @@
-import time, datetime
+import time
+import datetime
 
 
 def generate_timestamp():
