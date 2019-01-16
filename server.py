@@ -46,7 +46,7 @@ def route_question(question_id: int):
         data_manager.add_one_answer(answer)
         return redirect('/')
 
-    question = data_manager.get_one_question(question_id)
+    question = data_manager.get_question(question_id)
     answers = data_manager.get_answers(question_id)
 
     return render_template('list.html',
@@ -71,7 +71,7 @@ def route_add_answer(question_id: int):
         data_manager.add_one_answer(answer)
         return redirect('/')
 
-    question = data_manager.get_one_question(question_id)
+    question = data_manager.get_question(question_id)
 
     return render_template('edit.html',
                            form_url=url_for('route_add_answer'),
