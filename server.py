@@ -39,6 +39,7 @@ def route_question(question_id: int):
             raise ValueError('The ID is not valid')
 
         answer = {
+            'id': request.form.get('id'),
             'question_id': question_id,
             'message': request.form.get('message')
         }

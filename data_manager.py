@@ -31,4 +31,10 @@ def get_one_question(question_id):
         if record['id'] == question_id:
             return record
 
-
+def get_answers(question_id):
+    all_data = connection.get_all_data(connection.ANSWER_FILE_PATH)
+    answers = []
+    for record in all_data:
+        if record['question_id'] == question_id:
+            answers.append(record)
+            return answers
