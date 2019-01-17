@@ -1,12 +1,10 @@
 {% extends "layout.html" %}  <!-- extends to parent template -->
 {% block content %}
-
-
 <br>
 <div class="card">
-  <h6 class="card-header">Question: {{question['title']}}</h6>
+  <h6 class="card-header">Question: {{ question['title'] }}</h6>
   <div class="card-body">
-    {{question['message']}}
+      {{ question['message'] }}
       <br><br>
       <a class="btn btn-secondary" href="/question/{{question['id']}}/new-answer" role="button">Add answer</a>
   </div>
@@ -19,7 +17,6 @@
             <th scope="col">Submission time</th>
             <!--<th scope="col">Question Id</th>-->
             <th scope="col">Message</th>
-
         </tr>
         </thead>
         {% for answer in answers %}
