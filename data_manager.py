@@ -12,7 +12,7 @@ def get_next_id(list_of_dict):
 
 
 def add_one_question(question):
-    all_data = get_processed_data(connection.QUESTION_FILE_PATH)
+    all_data= get_processed_data(connection.QUESTION_FILE_PATH)
     question['id'] = get_next_id(all_data)
     question['submission_time'] = util.generate_timestamp()
     connection.save_data_in_csvfile(connection.QUESTION_FILE_PATH, question, connection.QUESTION_HEADER)
