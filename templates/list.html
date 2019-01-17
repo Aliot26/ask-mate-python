@@ -5,6 +5,18 @@
 &nbsp;
 <a href="/ask">Ask question </a> <br><br>
 
+<form>
+     <label for="attribute" class="sort_label">Header</label>
+        <select name="attribute" id="attribute" class="sorting" required>
+            <option value="title">Title</option>
+            <option value="user_story">User Story</option>
+            <option value="acceptance_criteria">Acceptance Criteria</option>
+            <option value="business_value">Business Value</option>
+            <option value="estimation">Estimation</option>
+            <option value="status">Status</option>
+        </select>
+    <a href={{ url_for('index') }}>Index</a>
+</form>
     <table style="width:70%">
         <thead class="thead-light">
         <tr>
