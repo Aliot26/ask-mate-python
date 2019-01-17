@@ -76,6 +76,16 @@ def route_add_answer(question_id):
 
 
 
+@app.route('/list/sorted')
+def route_list_sorted():
+    all_data = data_manager.get_question()
+    attribute = request.args.get('attribute')
+    order = request.args.get('order')
+    sorted_data = data_manager.sort_by_attributes(all_data, attribute, order)
+    return render_template('list.html',
+                           all_questions=sorted_data)
+
+
 
 if __name__ == '__main__':
     app.secret_key = "some_key"

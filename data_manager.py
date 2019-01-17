@@ -11,13 +11,8 @@ def get_next_id(list_of_dict):
     return str(new_id)
 
 
-def convert_id_to_int(question_id):
-    return int(question_id)
-
-
-
 def add_one_question(question):
-    all_data= get_processed_data(connection.QUESTION_FILE_PATH)
+    all_data = get_processed_data(connection.QUESTION_FILE_PATH)
     question['id'] = get_next_id(all_data)
     question['submission_time'] = util.generate_timestamp()
     connection.save_data_in_csvfile(connection.QUESTION_FILE_PATH, question, connection.QUESTION_HEADER)
@@ -30,11 +25,13 @@ def add_one_answer(answer):
     connection.save_data_in_csvfile(connection.ANSWER_FILE_PATH, answer, connection.ANSWER_HEADER)
 
 
-def get_question(question_id):
+def get_question(question_id=None):
     all_questions = get_processed_data(connection.QUESTION_FILE_PATH)
-    for question in all_questions:
-        if question_id == question['id']:
-            return question
+    if question_id:
+        for question in all_questions:
+            if question['id'] == question_id:
+                return question
+    return all_questions
 
 
 def get_answers(question_id):
@@ -60,13 +57,12 @@ def get_processed_data(filename):
     return data
 
 
-'''
- def sort_by_attributes(all_data, attribute, order):
+def sort_by_attributes(all_data, attribute, order):
     sort_order = None
     if order == 'desc':
         sort_order = True
     elif order == 'asc':
         sort_order = False
     sort_all_data = sorted(all_data, key=lambda k: k[attribute], reverse=sort_order)
-    return sort_all_data 
-'''
+    return sort_all_data
+
