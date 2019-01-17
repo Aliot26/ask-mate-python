@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import data_manager
+import connection
 
 app = Flask(__name__)
+
 
 
 @app.route('/')
@@ -10,75 +12,68 @@ def route_list():
     all_questions = data_manager.sort_questions()
 
     return render_template('list.html',
-                           all_questions=all_questions)
+                           all_questions=all_questions,
+                           )
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
+    question = {
+        'title':request.form.get('title'),
+        'message':request.form.get('message')
+    }
+
     if request.method == 'POST':
-        question = {
-            'title': request.form.get('title'),
-            'message': request.form.get('message')
-        }
+
 
         data_manager.add_one_question(question)
-        return redirect('/')
+        return redirect('/list')
 
     return render_template('edit.html',
                            form_url=url_for('route_add_question'),
                            page_title='Add Question',
-                           button='Add'
+                           button_title='Submit question',
+
                            )
 
 
-@app.route('/question/<question_id>', methods=['GET', 'POST'])
-def route_question(question_id: int):
-    if request.method == 'POST':
-        if request.form.get('id') != question_id:
-            raise ValueError('The ID is not valid')
-
-        answer = {
-            'id': request.form.get('id'),
-            'question_id': question_id,
-            'message': request.form.get('message')
-        }
-
-        data_manager.add_one_answer(answer)
-        return redirect('/')
-
+@app.route('/question/<question_id>', methods=['GET'])
+def route_question(question_id):
     question = data_manager.get_question(question_id)
     answers = data_manager.get_answers(question_id)
 
-    return render_template('list.html',
+    return render_template('question.html',
                            question=question,
-                           answers=answers,
                            form_url=url_for('route_question', question_id=question_id),
-                           page_title='Question'
+                           page_title='Question',
+                           answers=answers
                            )
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
-def route_add_answer(question_id: int):
-    if request.method == 'POST':
-        if request.form.get('id') != question_id:
-            raise ValueError('The ID is not valid')
-
-        answer = {
-            'question_id': question_id,
-            'message': request.form.get('message')
-        }
-
-        data_manager.add_one_answer(answer)
-        return redirect('/')
-
+def route_add_answer(question_id):
+    answer = {
+        'question_id':question_id,
+        'message':request.form.get('message')
+    }
     question = data_manager.get_question(question_id)
 
-    return render_template('edit.html',
-                           form_url=url_for('route_add_answer'),
-                           question=question,
+    if request.method == 'POST':
+
+
+        data_manager.add_one_answer(answer)
+        return redirect('/list')
+
+    return render_template('answer.html',
+     #                      form_url=url_for('route_add_answer'),
                            page_title='Add Answer',
-                           button='Add'
-                           )
+                           button_title='Submit answer',
+                           answer=answer,
+                           question_id=question_id,
+                           question=question
+
+                         )
+
 
 
 
@@ -86,6 +81,6 @@ if __name__ == '__main__':
     app.secret_key = "some_key"
     app.run(
         host='0.0.0.0',
-        port=5000,
+        port=7000,
         debug=True,
     )
