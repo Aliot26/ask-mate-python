@@ -81,20 +81,6 @@ def route_add_answer(question_id: int):
                            )
 
 
-@app.route('/list?order_by=title&order_direction=desc')
-def route_sorted_list():
-    try:
-        user_stories = data_handler.get_all_user_story()
-        attribute = request.args.get('attribute')
-        order = request.args.get('order')
-        user_stories = common.convert_number_to_integer(user_stories)
-        sorted_stories = common.sort_by_attributes(user_stories, attribute, order)
-        headers = ['ID', 'TITLE', 'USER STORY', 'ACCEPTANCE CRITERIA', 'BUSINESS VALUE', 'ESTIMATION', 'STATUS']
-        return render_template('list.html',
-                               user_stories=sorted_stories,
-                               headers=headers)
-    except UnboundLocalError:
-        return route_list()
 
 if __name__ == '__main__':
     app.secret_key = "some_key"
