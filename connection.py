@@ -14,12 +14,20 @@ def get_all_data(filename=QUESTION_FILE_PATH):
         return all_data
 
 
-def save_data_in_csvfile(filename, data, headers):
-    with open(filename, 'w', newline='')as file:
+
+
+def save_data_in_csvfile(filename, data, headers, append=True):
+    all_data = get_all_data()
+    with open(filename, 'w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=headers)
         writer.writeheader()
-        for record in data:
-            writer.writerow(record)
+        for row in all_data:
+            if not append:
+                if row['id'] == data['id']:
+                    row = data
+            writer.writerow(row)
+        if append:
+            writer.writerow(data)
 
 
 
