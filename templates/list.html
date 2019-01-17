@@ -1,29 +1,18 @@
 {% extends "layout.html" %}  <!-- extends to parent template -->
 {% block content %}
-
-<a href="/list">Home</a>
 &nbsp;
-<a href="/ask">Ask question </a> <br><br>
-
-<form>
-     <label for="attribute" class="sort_label">Header</label>
-        <select name="attribute" id="attribute" class="sorting" required>
-            <option value="title">Title</option>
-            <option value="user_story">User Story</option>
-            <option value="acceptance_criteria">Acceptance Criteria</option>
-            <option value="business_value">Business Value</option>
-            <option value="estimation">Estimation</option>
-            <option value="status">Status</option>
-        </select>
-    <a href={{ url_for('index') }}>Index</a>
-</form>
-    <table style="width:70%">
+<div class="container">
+    <a class="btn btn-secondary" href='/add-question' role="button">Add question:</a>
+</div>
+<br>
+    <div class="offset">
+    <table class="table table-hover">
         <thead class="thead-light">
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Submission time</th>
-            <th scope="col">View number</th>
-            <th scope="col">Vote number</th>
+            <!-- <th scope="col">View number</th>
+            <th scope="col">Vote number</th> -->
             <th scope="col">Title</th>
             <th scope="col">Message</th>
             <th scope="col">Image</th>
@@ -39,5 +28,6 @@
         </tr>
         {% endfor %}
     </table>
+    </div>
 
 {% endblock%}

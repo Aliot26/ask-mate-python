@@ -97,9 +97,9 @@ def route_sorted_list():
         return route_list()
 
 if __name__ == '__main__':
-    app.secret_key = "P~#X\xfe\x00\xb4\xcb\x892\x00\xb2\xa6\x99\xb8\x87\xba3\xba\xa5\x826y\x8d\xa9"
+    app.secret_key = "some_key"
     app.run(
         host='0.0.0.0',
-        port=8000,
+        port=5000,
         debug=True,
     )
