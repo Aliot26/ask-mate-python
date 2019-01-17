@@ -56,6 +56,7 @@ def route_add_answer(question_id):
         'question_id':question_id,
         'message':request.form.get('message')
     }
+    question = data_manager.get_question(question_id)
 
     if request.method == 'POST':
 
@@ -69,6 +70,7 @@ def route_add_answer(question_id):
                            button_title='Submit answer',
                            answer=answer,
                            question_id=question_id,
+                           question=question
 
                          )
 
@@ -93,6 +95,6 @@ if __name__ == '__main__':
     app.secret_key = "some_key"
     app.run(
         host='0.0.0.0',
-        port=8000,
+        port=7000,
         debug=True,
     )
