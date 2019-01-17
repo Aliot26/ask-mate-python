@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import data_manager
-import connection
 
 app = Flask(__name__)
-
 
 
 @app.route('/')
@@ -19,15 +17,13 @@ def route_list():
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
     question = {
-        'title':request.form.get('title'),
-        'message':request.form.get('message')
+        'title': request.form.get('title'),
+        'message': request.form.get('message')
     }
 
     if request.method == 'POST':
-
-
         data_manager.add_one_question(question)
-        return redirect('/list')
+        return redirect('/')
 
     return render_template('edit.html',
                            form_url=url_for('route_add_question'),
@@ -53,19 +49,17 @@ def route_question(question_id):
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def route_add_answer(question_id):
     answer = {
-        'question_id':question_id,
-        'message':request.form.get('message')
+        'question_id': question_id,
+        'message': request.form.get('message')
     }
     question = data_manager.get_question(question_id)
 
     if request.method == 'POST':
-
-
         data_manager.add_one_answer(answer)
-        return redirect('/list')
+        return redirect('/')
 
     return render_template('answer.html',
-     #                      form_url=url_for('route_add_answer'),
+     #                     form_url=url_for('route_add_answer'),
                            page_title='Add Answer',
                            button_title='Submit answer',
                            answer=answer,
@@ -84,7 +78,6 @@ def route_list_sorted():
     sorted_data = data_manager.sort_by_attributes(all_data, attribute, order)
     return render_template('list.html',
                            all_questions=sorted_data)
-
 
 
 if __name__ == '__main__':
