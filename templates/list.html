@@ -34,8 +34,8 @@
         {% for question in all_questions %}
             <tr>
                 <td>{{ question['submission_time'] }}</td>
-                <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
-                <td>{{ question['message'] }}</td>
+                <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+                <td>{{ question.message }}</td>
             </tr>
         {% endfor %}
     </table>

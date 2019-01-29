@@ -1,6 +1,29 @@
 import uuid
+
 import connection
 import util
+import database_connection as db_connect
+
+
+@db_connect.connection_handler
+def get_all_questions(cursor):
+    cursor.execute("""
+            SELECT submission_time, title, message
+            FROM question;
+                       """)
+    all_question = cursor.fetchall()
+    return all_question
+
+
+@db_connect.connection_handler
+def add_one_question(cursor, question):
+    cursor.execute("""
+                INSERT INTO question (submission_time, title, message)
+                VALUES (NOW()::timestamp(0) , %(title)s, %(message)s);
+                           """,
+                   {'title': question['title'],
+                    'message': question['message']
+                    })
 
 
 def get_next_id(list_of_dict):
@@ -11,11 +34,11 @@ def get_next_id(list_of_dict):
     return str(new_id)
 
 
-def add_one_question(question):
-    all_data = get_processed_data(connection.QUESTION_FILE_PATH)
-    question['id'] = get_next_id(all_data)
-    question['submission_time'] = util.generate_timestamp()
-    connection.save_data_in_csvfile(connection.QUESTION_FILE_PATH, question, connection.QUESTION_HEADER)
+# def add_one_question(question):
+#     all_data = get_processed_data(connection.QUESTION_FILE_PATH)
+#     question['id'] = get_next_id(all_data)
+#     question['submission_time'] = util.generate_timestamp()
+#     connection.save_data_in_csvfile(connection.QUESTION_FILE_PATH, question, connection.QUESTION_HEADER)
 
 
 def add_one_answer(answer):
@@ -65,4 +88,3 @@ def sort_by_attributes(all_data, attribute, order):
         sort_order = False
     sort_all_data = sorted(all_data, key=lambda k: k[attribute], reverse=sort_order)
     return sort_all_data
-
