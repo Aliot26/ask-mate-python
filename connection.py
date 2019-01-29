@@ -1,17 +1,21 @@
 import csv
 import os
 
+import database_connection
+
 QUESTION_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'data/question.csv'
 ANSWER_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'data/answer.csv'
 QUESTION_HEADER = ['id', 'submission_time', 'title', 'message', 'image']
 ANSWER_HEADER = ['id', 'submission_time', 'question_id', 'message', 'image']
 
-
-def get_all_data(filename):
-    with open(filename) as file:
-        reader = csv.DictReader(file)
-        all_data = [record for record in reader]
-        return all_data
+@database_connection.connection_handler
+def get_all_data(cursor):
+    cursor.execute("""
+                    SELECT submission_time, title, message FROM question
+    
+                """)
+    questions = cursor.fetchall()
+    return questions
 
 
 
