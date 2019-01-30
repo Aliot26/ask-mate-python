@@ -50,21 +50,6 @@ def add_one_comment(cursor, comment):
                     })
 
 
-def get_next_id(list_of_dict):
-    new_id = str(uuid.uuid4())[:6]
-    for dictionary in list_of_dict:
-        if dictionary['id'] == new_id:
-            get_next_id(list_of_dict)
-    return str(new_id)
-
-
-# def add_one_question(question):
-#     all_data = get_processed_data(connection.QUESTION_FILE_PATH)
-#     question['id'] = get_next_id(all_data)
-#     question['submission_time'] = util.generate_timestamp()
-#     connection.save_data_in_csvfile(connection.QUESTION_FILE_PATH, question, connection.QUESTION_HEADER)
-
-
 @db_connect.connection_handler
 def add_one_answer(cursor, answer):
     cursor.execute("""
@@ -120,14 +105,7 @@ def sort_questions(cursor, conditions):
                         FROM question
                         ORDER BY %(col_name)s %(order)s; 
                                    """,
-                   {'col_name': AsIs(conditions['attribute']), 'order':AsIs(conditions['order'])})
+                   {'col_name': AsIs(conditions['attribute']), 'order': AsIs(conditions['order'])})
     answers = cursor.fetchall()
     return answers
 
-
-# def get_next_id(list_of_dict):
-#     new_id = str(uuid.uuid4())[:6]
-#     for dict in list_of_dict:
-#         if dict['id'] == new_id:
-#             get_next_id(list_of_dict)
-#     return str(new_id)
