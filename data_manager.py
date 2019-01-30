@@ -26,6 +26,16 @@ def add_one_question(cursor, question):
                     })
 
 
+@db_connect.connection_handler
+def get_all_comments(cursor):
+    cursor.execute("""
+            SELECT *
+            FROM comment
+            """)
+    all_comments = cursor.fetchall()
+    return all_comments
+
+
 def get_next_id(list_of_dict):
     new_id = str(uuid.uuid4())[:6]
     for dict in list_of_dict:
