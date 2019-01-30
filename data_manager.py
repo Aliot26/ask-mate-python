@@ -58,6 +58,16 @@ def add_one_answer(cursor, answer):
                    {'question_id': answer['question_id'],
                     'message': answer['message']
                     })
+@db_connect.connection_handler
+def add_one_answer(cursor, answer):
+    cursor.execute("""
+                    INSERT INTO answer (submission_time, question_id, message)
+                    VALUES (NOW()::timestamp(0) , %(question_id)s, %(message)s)
+                    ON CONFLICT(id) DO NOTHING;
+                               """,
+                   {'question_id': answer['question_id'],
+                    'message': answer['message']
+                    })
 
 
 @db_connect.connection_handler
