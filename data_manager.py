@@ -34,6 +34,7 @@ def get_all_comments(cursor):
     all_comments = cursor.fetchall()
     return all_comments
 
+
 def get_next_id(list_of_dict):
     new_id = str(uuid.uuid4())[:6]
     for dict in list_of_dict:
@@ -48,6 +49,7 @@ def get_next_id(list_of_dict):
 #     question['submission_time'] = util.generate_timestamp()
 #     connection.save_data_in_csvfile(connection.QUESTION_FILE_PATH, question, connection.QUESTION_HEADER)
 
+
 @db_connect.connection_handler
 def add_one_answer(cursor, answer):
     cursor.execute("""
@@ -58,6 +60,8 @@ def add_one_answer(cursor, answer):
                    {'question_id': answer['question_id'],
                     'message': answer['message']
                     })
+
+
 @db_connect.connection_handler
 def add_one_answer(cursor, answer):
     cursor.execute("""
@@ -92,6 +96,7 @@ def get_answers(cursor, question_id):
                    {'question_id': question_id})
     answers = cursor.fetchall()
     return answers
+
 
 # def get_next_id(list_of_dict):
 #     new_id = str(uuid.uuid4())[:6]
