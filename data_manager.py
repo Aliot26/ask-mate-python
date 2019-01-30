@@ -17,12 +17,63 @@ def get_all_questions(cursor):
 def add_one_question(cursor, question):
     cursor.execute("""
                 INSERT INTO question (submission_time, title, message)
-                VALUES (NOW()::timestamp(0) , %(title)s, %(message)s)
+                VALUES (NOW()::timestamp(0), %(title)s, %(message)s)
                 ON CONFLICT(id) DO NOTHING
                 RETURNING id ;
                            """,
                    {'title': question['title'],
                     'message': question['message']
+                    })
+
+
+@db_connect.connection_handler
+def get_all_comments(cursor):
+    cursor.execute("""
+            SELECT *
+            FROM comment
+            ORDER BY submission_time DESC;
+            """)
+    all_comments = cursor.fetchall()
+    return all_comments
+
+
+@db_connect.connection_handler
+def add_one_comment(cursor, comment):
+    cursor.execute("""
+                INSERT INTO comment (submission_time, question_id, answer_id, message)
+                VALUES (NOW()::timestamp(0), %(question_id)s, %(answer_id)s, %(message)s)
+                ON CONFLICT(id) DO NOTHING
+                RETURNING id;
+                           """,
+                   {'title': comment['title'],
+                    'message': message['message']
+                    })
+
+
+def get_next_id(list_of_dict):
+    new_id = str(uuid.uuid4())[:6]
+    for dictionary in list_of_dict:
+        if dictionary['id'] == new_id:
+            get_next_id(list_of_dict)
+    return str(new_id)
+
+
+# def add_one_question(question):
+#     all_data = get_processed_data(connection.QUESTION_FILE_PATH)
+#     question['id'] = get_next_id(all_data)
+#     question['submission_time'] = util.generate_timestamp()
+#     connection.save_data_in_csvfile(connection.QUESTION_FILE_PATH, question, connection.QUESTION_HEADER)
+
+
+@db_connect.connection_handler
+def add_one_answer(cursor, answer):
+    cursor.execute("""
+                    INSERT INTO answer (submission_time, question_id, message)
+                    VALUES (NOW()::timestamp(0) , %(question_id)s, %(message)s)
+                    ON CONFLICT(id) DO NOTHING;
+                               """,
+                   {'question_id': answer['question_id'],
+                    'message': answer['message']
                     })
 
 
@@ -72,6 +123,7 @@ def sort_questions(cursor, conditions):
                    {'col_name': AsIs(conditions['attribute']), 'order':AsIs(conditions['order'])})
     answers = cursor.fetchall()
     return answers
+
 
 # def get_next_id(list_of_dict):
 #     new_id = str(uuid.uuid4())[:6]
