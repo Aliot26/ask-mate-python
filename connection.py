@@ -14,8 +14,6 @@ def get_all_data(filename):
         return all_data
 
 
-
-
 def save_data_in_csvfile(filename, data, headers, append=True):
     all_data = get_all_data(filename)
     with open(filename, 'w', newline='') as file:
@@ -28,7 +26,3 @@ def save_data_in_csvfile(filename, data, headers, append=True):
             writer.writerow(row)
         if append:
             writer.writerow(data)
-
-
-
-
