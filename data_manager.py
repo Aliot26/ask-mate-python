@@ -16,7 +16,7 @@ def get_all_questions(cursor):
 def add_one_question(cursor, question):
     cursor.execute("""
                 INSERT INTO question (submission_time, title, message)
-                VALUES (NOW()::timestamp(0) , %(title)s, %(message)s)
+                VALUES (NOW()::timestamp(0), %(title)s, %(message)s)
                 ON CONFLICT(id) DO NOTHING
                 RETURNING id ;
                            """,
@@ -34,6 +34,19 @@ def get_all_comments(cursor):
             """)
     all_comments = cursor.fetchall()
     return all_comments
+
+
+@db_connect.connection_handler
+def add_one_comment(cursor, comment):
+    cursor.execute("""
+                INSERT INTO comment (submission_time, question_id, answer_id, message)
+                VALUES (NOW()::timestamp(0), %(question_id)s, %(answer_id)s, %(message)s)
+                ON CONFLICT(id) DO NOTHING
+                RETURNING id;
+                           """,
+                   {'title': comment['title'],
+                    'message': message['message']
+                    })
 
 
 def get_next_id(list_of_dict):
