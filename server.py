@@ -9,6 +9,7 @@ app = Flask(__name__)
 @app.route('/list')
 def route_list():
     all_questions = data_manager.get_all_questions()
+    # all_questions = util.sort_questions(questions)
 
     return render_template('list.html',
                            all_questions=all_questions,
