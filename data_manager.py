@@ -37,8 +37,8 @@ def get_all_comments(cursor):
 
 def get_next_id(list_of_dict):
     new_id = str(uuid.uuid4())[:6]
-    for dict in list_of_dict:
-        if dict['id'] == new_id:
+    for dictionary in list_of_dict:
+        if dictionary['id'] == new_id:
             get_next_id(list_of_dict)
     return str(new_id)
 
