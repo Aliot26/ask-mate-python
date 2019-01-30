@@ -30,6 +30,7 @@ def get_all_comments(cursor):
     cursor.execute("""
             SELECT *
             FROM comment
+            ORDER BY submission_time DESC;
             """)
     all_comments = cursor.fetchall()
     return all_comments
