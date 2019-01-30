@@ -9,7 +9,6 @@ app = Flask(__name__)
 @app.route('/list')
 def route_list():
     all_questions = data_manager.get_all_questions()
-    # all_questions = util.sort_questions(questions)
 
     return render_template('list.html',
                            all_questions=all_questions,
@@ -18,7 +17,7 @@ def route_list():
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
-    question ={
+    question = {
         'title': request.form.get('title'),
         'message': request.form.get('message')
     }
@@ -65,16 +64,17 @@ def route_add_answer(question_id):
                            button_title='Submit answer',
                            answer=answer,
                            question_id=question_id,
-                           question=question
-                         )
+                           question=question)
 
 
 @app.route('/list/sorted')
 def route_list_sorted():
-    all_data = data_manager.get_question()
-    attribute = request.args.get('attribute')
-    order = request.args.get('order')
-    sorted_data = data_manager.sort_by_attributes(all_data, attribute, order)
+    conditions = {
+        'attribute': request.args.get('attribute'),
+        'order': request.args.get('order')
+    }
+    sorted_data = data_manager.sort_questions(conditions)
+
     return render_template('list.html',
                            all_questions=sorted_data)
 

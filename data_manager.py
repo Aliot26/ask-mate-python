@@ -1,4 +1,5 @@
 import database_connection as db_connect
+from psycopg2.extensions import AsIs
 
 
 @db_connect.connection_handler
@@ -57,6 +58,18 @@ def get_answers(cursor, question_id):
                     WHERE question_id = %(question_id)s ;
                                """,
                    {'question_id': question_id})
+    answers = cursor.fetchall()
+    return answers
+
+
+@db_connect.connection_handler
+def sort_questions(cursor, conditions):
+    cursor.execute("""
+                        SELECT id, submission_time, title, message
+                        FROM question
+                        ORDER BY %(col_name)s %(order)s; 
+                                   """,
+                   {'col_name': AsIs(conditions['attribute']), 'order':AsIs(conditions['order'])})
     answers = cursor.fetchall()
     return answers
 
