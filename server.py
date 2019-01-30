@@ -47,7 +47,7 @@ def route_question(question_id):
                            )
 
 
-@app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
+@app.route('/question/new-answer/<question_id>', methods=['GET', 'POST'])
 def route_add_answer(question_id):
     answer = {
         'question_id': question_id,
@@ -60,15 +60,12 @@ def route_add_answer(question_id):
         return redirect('/')
 
     return render_template('answer.html',
-     #                     form_url=url_for('route_add_answer'),
                            page_title='Add Answer',
                            button_title='Submit answer',
                            answer=answer,
                            question_id=question_id,
                            question=question
-
                          )
-
 
 
 @app.route('/list/sorted')
