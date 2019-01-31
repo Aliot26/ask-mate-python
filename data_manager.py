@@ -104,8 +104,8 @@ def sort_questions(cursor, conditions):
                         ORDER BY %(col_name)s %(order)s; 
                                    """,
                    {'col_name': AsIs(conditions['attribute']), 'order': AsIs(conditions['order'])})
-    answers = cursor.fetchall()
-    return answers
+    questions = cursor.fetchall()
+    return questions
 
 
 @db_connect.connection_handler

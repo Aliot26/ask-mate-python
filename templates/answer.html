@@ -2,9 +2,12 @@
 {% block content %}
 <br>
 <div class="card">
- <div class="card-body">
-    {{ question['message'] }}
-  </div>
+    <div class="card-body">
+        <strong>
+            {{ question['title'] }}
+        </strong><br>
+        {{ question['message'] }}
+    </div>
 </div>
 <div class="container">
 <form action="{{ form_url }}" method="post">
