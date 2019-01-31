@@ -119,3 +119,13 @@ def get_one_answer(cursor, id):
                    {'id': id})
     answer = cursor.fetchone()
     return answer
+
+
+@db_connect.connection_handler
+def update_answer(cursor, answer):
+    cursor.execute("""                   
+                       UPDATE answer 
+                       SET message = %(message)s 
+                       WHERE id = %(id)s;
+                       """,
+                   {'id': answer['id'], 'message': answer['message']})
