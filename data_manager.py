@@ -57,7 +57,7 @@ def add_one_comment(cursor, comment):
                 RETURNING id;
                            """,
                    {'title': comment['title'],
-                    'message': message['message']
+                    'message': comment['message']
                     })
 
 
