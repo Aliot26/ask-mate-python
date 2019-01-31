@@ -56,8 +56,7 @@ def add_one_comment(cursor, comment):
                 ON CONFLICT(id) DO NOTHING
                 RETURNING id;
                            """,
-                   {'title': comment['title'],
-                    'message': comment['message']
+                   {'message': comment['message']
                     })
 
 
