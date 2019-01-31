@@ -15,11 +15,13 @@
         <tr>
             <th scope="col">Submission time</th>
             <th scope="col">Message</th>
+            <th scope="col">Edit answer</th>
         </tr>
         </thead>
         {% for answer in answers %}
                 <td>{{ answer.submission_time }}</td>
                 <td>{{ answer.message}}</td>
+                <td><a class="btn btn-secondary" href='/edit-answer/{{answer.id}}' role="button">Edit answer</a></td>
             </tr>
         {% endfor %}
     </table>
