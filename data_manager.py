@@ -38,6 +38,17 @@ def get_all_comments(cursor):
 
 
 @db_connect.connection_handler
+def get_comment_by_id(cursor, comment_id):
+    cursor.execute("""
+            SELECT *
+            FROM comment
+            WHERE id = %(comment_id)s;
+            """)
+    comment = cursor.fetchone()
+    return comment
+
+
+@db_connect.connection_handler
 def add_one_comment(cursor, comment):
     cursor.execute("""
                 INSERT INTO comment (submission_time, question_id, answer_id, message)
@@ -46,7 +57,7 @@ def add_one_comment(cursor, comment):
                 RETURNING id;
                            """,
                    {'title': comment['title'],
-                    'message': message['message']
+                    'message': comment['message']
                     })
 
 
