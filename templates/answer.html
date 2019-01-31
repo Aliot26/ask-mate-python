@@ -2,8 +2,9 @@
 {% block content %}
 <br>
 <div class="card">
-  <div class="card-body">
-    {{ question.message }}
+ <div class="card-body">
+    {{ question['message'] }}
+
   </div>
 </div>
 <div class="container">
@@ -11,7 +12,7 @@
         <p>
             <label for="message">Your answer</label><br>
             <textarea id="message" name="message" placeholder="Enter your answer here" rows="5" cols="60"
-                      required=on></textarea>
+                        required=on>{% if edit_answer %}{{ edit_answer['message'] }}{% endif %}</textarea>
         </p>
   <!--<div class="custom-file">
     <input type="file" class="custom-file-input" name='image' id="inputGroupFile01">
