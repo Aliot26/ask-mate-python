@@ -57,11 +57,12 @@ def route_add_answer(question_id):
 
     if request.method == 'POST':
         data_manager.add_one_answer(answer)
-        return redirect('/')
+        return redirect('/question/{}'.format(question_id))
 
     return render_template('answer.html',
                            page_title='Add Answer',
                            button_title='Submit answer',
+                           form_url=url_for('route_add_answer', question_id=question_id),
                            answer=answer,
                            question_id=question_id,
                            question=question)
@@ -77,6 +78,19 @@ def route_list_sorted():
 
     return render_template('list.html',
                            all_questions=sorted_data)
+
+
+@app.route('/edit-answer/<id>', methods=['GET', 'POST'])
+def route_edit_answer(id):
+    answer = data_manager.get_one_answer(id)
+    question_id = answer['question_id']
+    question = data_manager.get_question(question_id)
+    return render_template('answer.html',
+                           page_title='Add Answer',
+                           button_title='Submit answer',
+                           edit_answer=answer,
+                           question = question
+                           )
 
 
 if __name__ == '__main__':
