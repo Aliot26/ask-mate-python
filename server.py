@@ -93,6 +93,27 @@ def route_edit_answer(id):
                            )
 
 
+@app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
+def route_add_comment(answer_id):
+    comment = {
+        'answer_id': answer_id,
+        'message': request.form.get('message')
+    }
+    answer = data_manager.get_answer(answer_id)
+
+    if request.method == 'POST':
+        data_manager.add_one_comment(comment)
+        return redirect('/answer/{}'.format(answer_id))
+
+    return render_template('comment.html',
+                           page_title='Add Comment',
+                           button_title='Submit Comment',
+                           form_url=url_for('route_add_comment', answer_id=answer_id),
+                           answer=answer,
+                           answer_id=answer_id
+                           )
+
+
 if __name__ == '__main__':
     app.secret_key = "some_key"
     app.run(
