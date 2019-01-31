@@ -38,12 +38,13 @@ def get_all_comments(cursor):
 
 
 @db_connect.connection_handler
-def get_comment_by_id(cursor, comment_id):
+def get_comment_by_id(cursor, id):
     cursor.execute("""
             SELECT *
             FROM comment
-            WHERE id = %(comment_id)s;
-            """)
+            WHERE id = %(id)s;
+            """,
+                   {'id': id})
     comment = cursor.fetchone()
     return comment
 
@@ -56,8 +57,24 @@ def add_one_comment(cursor, comment):
                 ON CONFLICT(id) DO NOTHING
                 RETURNING id;
                            """,
-                   {'message': comment['message']
+                   {'question_id': comment['question_id'],
+                    'answer_id': comment['answer_id'],
+                    'message': comment['message']
                     })
+
+
+@db_connect.connection_handler
+def get_all_comments_by_question(cursor, question_id):
+    cursor.execute("""
+            SELECT *
+            FROM comment
+            WHERE question_id = %(question_id)s 
+            ORDER BY submission_time DESC;
+            """,
+                   {'question_id': question_id
+                    })
+    all_comments = cursor.fetchall()
+    return all_comments
 
 
 @db_connect.connection_handler
@@ -89,7 +106,8 @@ def get_answers(cursor, question_id):
     cursor.execute("""
                     SELECT id, submission_time, question_id, message
                     FROM answer
-                    WHERE question_id = %(question_id)s ;
+                    WHERE question_id = %(question_id)s 
+                    ORDER BY submission_time ASC;
                                """,
                    {'question_id': question_id})
     answers = cursor.fetchall()
@@ -128,3 +146,13 @@ def update_answer(cursor, answer):
                        WHERE id = %(id)s;
                        """,
                    {'id': answer['id'], 'message': answer['message']})
+
+
+@db_connect.connection_handler
+def update_comment(cursor, comment):
+    cursor.execute("""                   
+                       UPDATE comment 
+                       SET message = %(message)s 
+                       WHERE id = %(id)s;
+                       """,
+                   {'id': comment['id'], 'message': comment['message']})

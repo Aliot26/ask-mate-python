@@ -38,12 +38,13 @@ def route_add_question():
 def route_question(question_id):
     question = data_manager.get_question(question_id)
     answers = data_manager.get_answers(question_id)
-
+    all_comments = data_manager.get_all_comments_by_question(question_id)
     return render_template('question.html',
                            question=question,
                            form_url=url_for('route_question', question_id=question_id),
                            page_title='Question',
-                           answers=answers
+                           answers=answers,
+                           all_comments=all_comments
                            )
 
 
@@ -100,24 +101,42 @@ def route_edit_answer(id):
                            )
 
 
-@app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
+@app.route('/answer/new-comment/<answer_id>', methods=['GET', 'POST'])
 def route_add_comment(answer_id):
+    answer = data_manager.get_one_answer(answer_id)
     comment = {
         'answer_id': answer_id,
-        'message': request.form.get('message')
+        'message': request.form.get('message'),
+        'question_id': answer['question_id']
     }
-    answer = data_manager.get_answer(answer_id)
-
     if request.method == 'POST':
         data_manager.add_one_comment(comment)
-        return redirect('/answer/{}'.format(answer_id))
+        return redirect('/question/{}'.format(comment['question_id']))
 
     return render_template('comment.html',
-                           page_title='Add Comment',
+                           page_title='Add comment',
                            button_title='Submit Comment',
                            form_url=url_for('route_add_comment', answer_id=answer_id),
-                           answer=answer,
-                           answer_id=answer_id
+                           answer_id=answer_id,
+                           answer=answer
+                           )
+
+
+@app.route('/edit-comment/<comment_id>', methods=['GET', 'POST'])
+def route_edit_comment(comment_id):
+    comment = data_manager.get_comment_by_id(comment_id)
+    question_id = comment['question_id']
+    if request.method == "POST":
+        comment = {
+            'id': comment['id'],
+            'message': request.form.get('message')
+        }
+        data_manager.update_comment(comment)
+        return redirect('/question/{}'.format(question_id))
+    return render_template('comment.html',
+                           page_title='Edit comment',
+                           button_title='Submit comment',
+                           edit_comment=comment
                            )
 
 
