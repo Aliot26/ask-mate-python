@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<div class="card">
+    <div class="card-body">
+        {{ what_to_comment }}
+    </div>
+</div>
+<div class="container">
+    <form action="{{ form_url }}" method="post">
+        <p>
+            <label for="message">Your comment</label><br>
+            <textarea id="message" name="message" placeholder="Enter your comment here" rows="5" cols="60"
+                        required=on>{% if edit_comment %}{{ edit_comment['message'] }}{% endif %}</textarea>
+        </p>
+        <br>
+    <button type="submit">{{ button_title }}</button>
+</form>
+</div>
+{% endblock %}
