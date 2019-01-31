@@ -85,11 +85,18 @@ def route_edit_answer(id):
     answer = data_manager.get_one_answer(id)
     question_id = answer['question_id']
     question = data_manager.get_question(question_id)
+    if request.method == "POST":
+        answer = {
+            'id': answer['id'],
+            'message': request.form.get('message')
+        }
+        data_manager.update_answer(answer)
+        return redirect('/question/{}'.format(question_id))
     return render_template('answer.html',
                            page_title='Add Answer',
                            button_title='Submit answer',
                            edit_answer=answer,
-                           question = question
+                           question=question
                            )
 
 
