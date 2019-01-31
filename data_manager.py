@@ -46,7 +46,7 @@ def add_one_comment(cursor, comment):
                 RETURNING id;
                            """,
                    {'title': comment['title'],
-                    'message': message['message']
+                    'message': comment['message']
                     })
 
 
@@ -109,3 +109,14 @@ def sort_questions(cursor, conditions):
     answers = cursor.fetchall()
     return answers
 
+
+@db_connect.connection_handler
+def get_one_answer(cursor, id):
+    cursor.execute("""
+                    SELECT id, submission_time, question_id, message
+                    FROM answer
+                    WHERE id = %(id)s ;
+                               """,
+                   {'id': id})
+    answer = cursor.fetchall()
+    return answer
