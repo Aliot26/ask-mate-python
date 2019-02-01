@@ -2,9 +2,25 @@
 {% block content %}
 &nbsp;
 <div class="container">
-    <a class="btn btn-secondary" href='/add-question' role="button">Add question</a>
-</div>
+        <div class="row justify-content-between" >
+            <div class="col">
+                <br>
+            <a class="btn btn-secondary" href='/add-question' role="button">Add question</a>
+            </div>
+            <div class="col align-self-end">
+    <form action="{{ form_url }}"
+          method="post">
+        <label for="title">Search for:</label><br>
+        <textarea name="expression" id="expression"  placeholder='What are you searching for?' cols="40" value="{{expression}}"></textarea>
+        <button class="btn btn-secondary" type="submit">Search</button>
+    </form>
+    </div>
+        </div>
+        </div>
 <br>
+    <div class="container">
+        <div class="row" >
+            <div class="col">
 <form action="/list/sorted" method="get">Sort by:
         <label for="attribute">Name</label>
         <select id="attribute" name="attribute">
@@ -16,8 +32,11 @@
             <option value="asc">Asc</option>
             <option value="desc">Desc</option>
         </select>
-        <button type="submit" value="Submit">Sort</button>
+        <button class="btn btn-secondary" type="submit" value="Submit">Sort</button>
     </form>
+            </div>
+        </div>
+    </div>
 <div class="offset">
     <table class="table table-hover">
         <thead class="thead-light">
