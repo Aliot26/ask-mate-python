@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 
 import data_manager
+from logic import question_log as ql
+from validation import form_validation as fv
 
 app = Flask(__name__)
 
@@ -8,29 +10,37 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def route_list():
-    all_questions = data_manager.get_all_questions()
-
+    all_questions = ql.get_all_question()
+    if not all_questions:
+        warning = "No data"
+    else:
+        warning = ""
     return render_template('list.html',
                            all_questions=all_questions,
+                           warning=warning
                            )
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
-    question = {
-        'title': request.form.get('title'),
-        'message': request.form.get('message')
-    }
-
     if request.method == 'POST':
-        data_manager.add_one_question(question)
-        return redirect('/')
+        question = fv.get_question_from_form()
+        if question:
+            ql.add_one_question(question)
+            return redirect('/')
+        else:
+            warning = "Please, fill in form correctly"
+            return render_template('edit.html',
+                           form_url=url_for('route_add_question'),
+                           page_title='Add Question',
+                           button_title='Submit question',
+                           warning=warning
+                           )
 
     return render_template('edit.html',
                            form_url=url_for('route_add_question'),
                            page_title='Add Question',
-                           button_title='Submit question',
-
+                           button_title='Submit question'
                            )
 
 
