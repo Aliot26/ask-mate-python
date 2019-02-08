@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import data_manager
 from logic import question_log as ql
 from logic import answer_log as al
+from logic import comment_log as cl
 from validation import form_validation as fv
 
 app = Flask(__name__)
@@ -42,8 +43,8 @@ def route_add_question():
 @app.route('/question/<question_id>', methods=['GET'])
 def route_question(question_id):
     question = ql.get_question(question_id)
-    answers = al.get_answer(question_id)
-    all_comments = data_manager.get_all_comments_by_question(question_id)
+    answers = al.get_answers(question_id)
+    all_comments = cl.get_all_comments_by_question(question_id)
     return render_template('question.html',
                            question=question,
                            form_url=url_for('route_question', question_id=question_id),
