@@ -73,7 +73,8 @@ def route_add_answer(question_id):
                            form_url=url_for('route_add_answer', question_id=question_id),
                            question_id=question_id,
                            question=question,
-                           warning=warning)
+                           warning=warning
+                           )
 
 
 @app.route('/list/sorted')
@@ -107,7 +108,8 @@ def route_edit_answer(id):
                            button_title='Submit answer',
                            edit_answer=answer,
                            question=question,
-                           warning=warning)
+                           warning=warning
+                           )
 
 
 @app.route('/answer/new-comment/<answer_id>', methods=['GET', 'POST'])
@@ -129,24 +131,28 @@ def route_add_comment(answer_id):
                            form_url=url_for('route_add_comment', answer_id=answer_id),
                            answer_id=answer_id,
                            answer=answer,
-                           warning=warning)
+                           warning=warning
+                           )
 
 
 @app.route('/edit-comment/<comment_id>', methods=['GET', 'POST'])
 def route_edit_comment(comment_id):
-    comment = data_manager.get_comment_by_id(comment_id)
+    warning = ""
+    comment = cl.get_one_comment(comment_id)
     question_id = comment['question_id']
     if request.method == "POST":
-        comment = {
-            'id': comment['id'],
-            'message': request.form.get('message')
-        }
-        data_manager.update_comment(comment)
-        return redirect('/question/{}'.format(question_id))
+        comment = fv.get_comment_from_form()
+        if comment:
+            comment['id'] = comment_id
+            cl.update_comment(comment)
+            return redirect('/question/{}'.format(question_id))
+        else:
+            warning = "Please, fill in form correctly"
     return render_template('comment.html',
                            page_title='Edit comment',
                            button_title='Submit comment',
-                           edit_comment=comment
+                           edit_comment=comment,
+                           warning=warning,
                            )
 
 
@@ -155,5 +161,5 @@ if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
         port=7000,
-        debug=True,
+        debug=True
     )
