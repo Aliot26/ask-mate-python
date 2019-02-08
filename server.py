@@ -61,7 +61,7 @@ def route_add_answer(question_id):
     if request.method == 'POST':
         answer = fv.get_answer_from_form()
         if answer:
-            answer['question_id']= question_id
+            answer['question_id'] = question_id
             al.add_answer(answer)
             return redirect('/question/{}'.format(question_id))
         else:
@@ -112,23 +112,24 @@ def route_edit_answer(id):
 
 @app.route('/answer/new-comment/<answer_id>', methods=['GET', 'POST'])
 def route_add_comment(answer_id):
-    answer = data_manager.get_one_answer(answer_id)
-    comment = {
-        'answer_id': answer_id,
-        'message': request.form.get('message'),
-        'question_id': answer['question_id']
-    }
+    warning = ""
+    answer = al.get_one_answer(answer_id)
     if request.method == 'POST':
-        data_manager.add_one_comment(comment)
-        return redirect('/question/{}'.format(comment['question_id']))
-
+        comment = fv.get_comment_from_form()
+        if comment:
+            comment['answer_id'] = answer_id
+            comment['question_id'] = answer['question_id']
+            cl.add_comment(comment)
+            return redirect('/question/{}'.format(comment['question_id']))
+        else:
+            warning = "Please, fill in form correctly"
     return render_template('comment.html',
                            page_title='Add comment',
                            button_title='Submit Comment',
                            form_url=url_for('route_add_comment', answer_id=answer_id),
                            answer_id=answer_id,
-                           answer=answer
-                           )
+                           answer=answer,
+                           warning=warning)
 
 
 @app.route('/edit-comment/<comment_id>', methods=['GET', 'POST'])
