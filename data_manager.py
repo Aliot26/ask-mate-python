@@ -27,6 +27,18 @@ def add_one_question(cursor, question):
 
 
 @db_connect.connection_handler
+def get_question(cursor, question_id):
+    cursor.execute("""
+                SELECT id, submission_time, title, message
+                FROM question
+                WHERE id = %(question_id)s;
+                    """,
+                   {'question_id': question_id})
+    question = cursor.fetchone()
+    return question
+
+
+@db_connect.connection_handler
 def get_all_comments(cursor):
     cursor.execute("""
             SELECT *
@@ -87,18 +99,6 @@ def add_one_answer(cursor, answer):
                    {'question_id': answer['question_id'],
                     'message': answer['message']
                     })
-
-
-@db_connect.connection_handler
-def get_question(cursor, question_id):
-    cursor.execute("""
-                SELECT id, submission_time, title, message
-                FROM question
-                WHERE id = %(question_id)s ;
-                           """,
-                   {'question_id': question_id})
-    question = cursor.fetchone()
-    return question
 
 
 @db_connect.connection_handler

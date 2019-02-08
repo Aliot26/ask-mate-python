@@ -10,11 +10,10 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def route_list():
+    warning = ""
     all_questions = ql.get_all_question()
     if not all_questions:
         warning = "No data"
-    else:
-        warning = ""
     return render_template('list.html',
                            all_questions=all_questions,
                            warning=warning
@@ -23,6 +22,7 @@ def route_list():
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
+    warning = ""
     if request.method == 'POST':
         question = fv.get_question_from_form()
         if question:
@@ -30,23 +30,18 @@ def route_add_question():
             return redirect('/')
         else:
             warning = "Please, fill in form correctly"
-            return render_template('edit.html',
+    return render_template('edit.html',
                            form_url=url_for('route_add_question'),
                            page_title='Add Question',
                            button_title='Submit question',
                            warning=warning
                            )
 
-    return render_template('edit.html',
-                           form_url=url_for('route_add_question'),
-                           page_title='Add Question',
-                           button_title='Submit question'
-                           )
-
 
 @app.route('/question/<question_id>', methods=['GET'])
 def route_question(question_id):
-    question = data_manager.get_question(question_id)
+    question = ql.get_question(question_id)
+    # question = data_manager.get_question(question_id)
     answers = data_manager.get_answers(question_id)
     all_comments = data_manager.get_all_comments_by_question(question_id)
     return render_template('question.html',

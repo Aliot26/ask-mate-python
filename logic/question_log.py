@@ -15,3 +15,11 @@ def add_one_question(question):
         dm.add_one_question(question)
     except psycopg2.DatabaseError as e:
         print(e)
+
+
+def get_question(question_id):
+    try:
+        return dm.get_question(question_id)
+    except psycopg2.DatabaseError as e:
+        print(e)
+        return []
