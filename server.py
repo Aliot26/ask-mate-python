@@ -56,23 +56,22 @@ def route_question(question_id):
 
 @app.route('/question/new-answer/<question_id>', methods=['GET', 'POST'])
 def route_add_answer(question_id):
-    answer = {
-        'question_id': question_id,
-        'message': request.form.get('message')
-    }
-    question = data_manager.get_question(question_id)
-
+    warning = ""
+    question = ql.get_question(question_id)
     if request.method == 'POST':
-        data_manager.add_one_answer(answer)
+        answer = fv.get_answer_from_form()
+        if answer:
+            answer['question_id']= question_id
+            al.add_answer(answer)
         return redirect('/question/{}'.format(question_id))
 
     return render_template('answer.html',
                            page_title='Add Answer',
                            button_title='Submit answer',
                            form_url=url_for('route_add_answer', question_id=question_id),
-                           answer=answer,
                            question_id=question_id,
-                           question=question)
+                           question=question,
+                           warning=warning)
 
 
 @app.route('/list/sorted')

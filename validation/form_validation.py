@@ -19,6 +19,18 @@ def get_question_from_form():
         return False
 
 
+def get_answer_from_form():
+    message = remove_parentheses(request.form.get('message'))
+    message = check_is_not_empty(message)
+    if message:
+        answer = {
+            'message': message
+        }
+        return answer
+    else:
+        return False
+
+
 def remove_parentheses(string):
     string = re.sub('\<|\>|\{|\}|\[|\]', '', string)
     return string
