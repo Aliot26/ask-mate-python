@@ -43,6 +43,22 @@ def get_comment_from_form():
         return False
 
 
+def check_conditions_of_sorting():
+    attribute_list = ['submission_time', 'title']
+    order_list = ['asc', 'desc']
+    attribute = remove_parentheses(request.args.get('attribute'))
+    attribute = check_is_not_empty(attribute)
+    order = remove_parentheses(request.args.get('order'))
+    order = check_is_not_empty(order)
+    if attribute in attribute_list and order in order_list:
+        conditions = {
+            'attribute': attribute,
+            'order': order
+        }
+        return conditions
+    else:
+        return False
+
 
 def remove_parentheses(string):
     string = re.sub('\<|\>|\{|\}|\[|\]', '', string)

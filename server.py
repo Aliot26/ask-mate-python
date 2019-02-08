@@ -79,12 +79,8 @@ def route_add_answer(question_id):
 
 @app.route('/list/sorted')
 def route_list_sorted():
-    conditions = {
-        'attribute': request.args.get('attribute'),
-        'order': request.args.get('order')
-    }
-    sorted_data = data_manager.sort_questions(conditions)
-
+    conditions = fv.check_conditions_of_sorting()
+    sorted_data = ql.sorting_questions(conditions)
     return render_template('list.html',
                            all_questions=sorted_data)
 

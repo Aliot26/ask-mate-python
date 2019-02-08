@@ -23,3 +23,11 @@ def get_question(question_id):
     except psycopg2.DatabaseError as e:
         print(e)
         return []
+
+
+def sorting_questions(conditions):
+    try:
+        return dm.sort_questions(conditions)
+    except psycopg2.DatabaseError as e:
+        print(e)
+        return []
