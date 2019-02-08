@@ -10,6 +10,7 @@
     </div>
 </div>
 <div class="container">
+    {% if warning%}<p>{{warning}}</p>{%endif%}
 <form action="{{ form_url }}" method="post">
         <p>
             <label for="message">Your answer</label><br>
