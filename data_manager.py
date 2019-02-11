@@ -47,6 +47,7 @@ def get_question(cursor, question_id):
         return question
     except psycopg2.Error as e:
         print(e)
+        return []
 
 
 @db_connect.connection_handler

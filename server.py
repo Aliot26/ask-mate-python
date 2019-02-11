@@ -62,14 +62,16 @@ def route_add_answer(question_id):
     warning = ""
     question = ql.get_question(question_id)
     if request.method == 'POST':
-        answer = fv.get_answer_from_form()
-        if answer:
-            answer['question_id'] = question_id
-            al.add_answer(answer)
+        message = request.form.get('message')
+        answer = {
+            'message': message,
+            'question_id': question_id
+        }
+        result = al.add_answer(answer)
+        if result:
             return redirect('/question/{}'.format(question_id))
         else:
             warning = "Please, fill in form correctly"
-
     return render_template('answer.html',
                            page_title='Add Answer',
                            button_title='Submit answer',
@@ -82,10 +84,19 @@ def route_add_answer(question_id):
 
 @app.route('/list/sorted')
 def route_list_sorted():
-    conditions = fv.check_conditions_of_sorting()
+    attribute = request.args.get('attribute')
+    order = request.args.get('order')
+    conditions = {
+        'attribute': attribute,
+        'order': order
+    }
     sorted_data = ql.sorting_questions(conditions)
-    return render_template('list.html',
-                           all_questions=sorted_data)
+    if not sorted_data:
+        return redirect(url_for('route_list'), code=302, Response=None)
+    else:
+        return render_template('list.html',
+                               all_questions=sorted_data
+                               )
 
 
 @app.route('/edit-answer/<id>', methods=['GET', 'POST'])
@@ -95,10 +106,13 @@ def route_edit_answer(id):
     question_id = answer['question_id']
     question = ql.get_question(question_id)
     if request.method == "POST":
-        answer = fv.get_answer_from_form()
-        if answer:
-            answer['id'] = id
-            al.update_answer(answer)
+        message = request.form.get('message')
+        answer = {
+            'id': id,
+            'message': message,
+            'question_id': question_id
+        }
+        if al.update_answer(answer):
             return redirect('/question/{}'.format(question_id))
         else:
             warning = "Please, fill in form correctly"
@@ -115,12 +129,16 @@ def route_edit_answer(id):
 def route_add_comment(answer_id):
     warning = ""
     answer = al.get_one_answer(answer_id)
+    question_id = answer['question_id']
     if request.method == 'POST':
-        comment = fv.get_comment_from_form()
-        if comment:
-            comment['answer_id'] = answer_id
-            comment['question_id'] = answer['question_id']
-            cl.add_comment(comment)
+        message = request.form.get('message')
+        comment = {
+            'message': message,
+            'question_id': question_id,
+            'answer_id': answer_id
+        }
+        result = cl.add_comment(comment)
+        if result:
             return redirect('/question/{}'.format(comment['question_id']))
         else:
             warning = "Please, fill in form correctly"
@@ -140,10 +158,13 @@ def route_edit_comment(comment_id):
     comment = cl.get_one_comment(comment_id)
     question_id = comment['question_id']
     if request.method == "POST":
-        comment = fv.get_comment_from_form()
-        if comment:
-            comment['id'] = comment_id
-            cl.update_comment(comment)
+        message = request.form.get('message')
+        comment = {
+            'id': comment_id,
+            'message': message,
+            'question_id': question_id
+        }
+        if cl.update_comment(comment):
             return redirect('/question/{}'.format(question_id))
         else:
             warning = "Please, fill in form correctly"
