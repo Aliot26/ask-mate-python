@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 
 import data_manager
-from logic import question_log as ql
-from logic import answer_log as al
-from logic import comment_log as cl
+from logic import question_logic as ql
+from logic import answer_logic as al
+from logic import comment_logic as cl
 from validation import form_validation as fv
 
 app = Flask(__name__)
