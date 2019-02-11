@@ -15,6 +15,7 @@ def get_all_questions(cursor):
         return all_question
     except psycopg2.DatabaseError as e:
         print(e)
+        return []
 
 
 @db_connect.connection_handler

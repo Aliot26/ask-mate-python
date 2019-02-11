@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 
-import data_manager
 from logic import question_logic as ql
 from logic import answer_logic as al
 from logic import comment_logic as cl
-from validation import form_validation as fv
 
 app = Flask(__name__)
 
@@ -26,9 +24,14 @@ def route_list():
 def route_add_question():
     warning = ""
     if request.method == 'POST':
-        question = fv.get_question_from_form()
-        if question:
-            ql.add_one_question(question)
+        title = request.form.get('title')
+        message = request.form.get('message')
+        question = {
+            'title': title,
+            'message': message
+        }
+        result = ql.add_one_question(question)
+        if result:
             return redirect('/')
         else:
             warning = "Please, fill in form correctly"
