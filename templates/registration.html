@@ -1,0 +1,8 @@
+{% extends "layout.html" %}  <!-- extends to parent template -->
+{% block content %}
+<form action='{{  form_url  }}' method="POST">
+    <input type="text" name="username" placeholder="username" value="{{ username }}" required>
+    <input type="text" name="password" placeholder="password" value="{{ password }}" required>
+    <button type="submit">Sign up</button>
+</form>
+{% endblock%}

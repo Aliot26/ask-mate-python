@@ -176,6 +176,12 @@ def route_edit_comment(comment_id):
                            )
 
 
+@app.route('/registration', methods=['GET', 'POST'])
+def route_registration():
+    
+    pass
+
+
 if __name__ == '__main__':
     app.secret_key = "some_key"
     app.run(

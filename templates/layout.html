@@ -12,25 +12,33 @@
 </head>
 <body>
 <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
-  <a class="navbar-brand" href="/">
-    <img src="/static/AskMatelogo2.png" width="90" height="35" alt="">
-  </a>
+            <a class="navbar-brand" href="/">
+                <img src="/static/AskMatelogo2.png" width="90" height="35" alt="">
+            </a>
         </div>
-</nav>
-
-<main role="main" class="container">
-      <div class="row">
-        <div class="col-md-12">
-          {% block content %}{% endblock %}
+        <div class="container">
+            <a class="btn btn-secondary" href='/registration' role="button">Sign up</a>
         </div>
+        <div class="container">
+            <a class="btn btn-secondary" href='/login' role="button">Sign in</a>
+        </div>
+        <!--<div class="container">-->
+            <!--<a class="btn btn-secondary" href='/logout' role="button">Log out</a>-->
+        <!--</div>-->
+    </nav>
+</header>
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% block content %}{% endblock %}
+            </div>
 
-          </div>
-      </main>
+        </div>
+    </main>
 
-<! -- here goes child template -->
-
+    <! -- here goes child template -->
 
 </body>
 </html>
