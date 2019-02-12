@@ -180,20 +180,18 @@ def route_edit_comment(comment_id):
 @app.route('/registration', methods=['GET', 'POST'])
 def route_registration():
     notice = ""
-    if request.method == "GET":
-        session['reg_status'] = "not registered"
-        return render_template('registration.html')
     if request.method == "POST":
         new_user = {
             'username': request.form.get('username'),
             'password': request.form.get('password')
         }
         exist_user = ul.check_exist_user(new_user)
-        if exist_user:
-            notice = "User already exists"
-            return render_template('registration.html',
-                                   notice=notice)
-
+        if not exist_user:
+            ul.add_new_user(new_user)
+            return redirect('/')
+        notice = "User already exists"
+    return render_template('registration.html',
+                               notice=notice)
 
 
 if __name__ == '__main__':
