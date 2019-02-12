@@ -18,15 +18,25 @@
                 <img src="/static/AskMatelogo2.png" width="90" height="35" alt="">
             </a>
         </div>
+        {% if session['username'] %}
+        <div class="container" >
+            <p  class="text-white">Hello {{session['username']}}</p>
+        </div>
+        {% endif %}
         <div class="container">
                 <form action='/login' method="POST">
+                    {% if not session['username'] %}
                     <input type="text" name="username" placeholder="username" value="{{ username }}" required>
                     <input type="text" name="password" placeholder="password" value="{{ password }}" required>
-
+                    {% endif %}
                     <div class="btn-group" role="group" aria-label="Login group">
-                        <a class="btn btn-outline-light"role="button" a href='/login'>Log in</a>
+                        {% if not session['username'] %}
+                        <a class="btn btn-outline-light"role="button" href='/login'>Log in</a>
                         <a class="btn btn-outline-light" role="button" color="light" href='/registration'>Create
                             Account </a>
+                        {% else %}
+                        <a class="btn btn-outline-light"role="button" href='/logout'>Log out</a>
+                        {% endif %}
                     </div>
                 </form>
         </div>

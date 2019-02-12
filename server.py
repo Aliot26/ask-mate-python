@@ -6,6 +6,7 @@ from logic import comment_logic as cl
 from logic import user_logic as ul
 
 app = Flask(__name__)
+app.secret_key = "waw"
 
 
 @app.route('/')
@@ -176,14 +177,13 @@ def route_edit_comment(comment_id):
                            warning=warning,
                            )
 
-@app.route('/list/search/', methods= ['GET'])
+
+@app.route('/list/search/', methods=['GET'])
 def route_list_search():
     expression = request.form.get('expression')
-
     searched_questions = data_manager.search_questions_by_expression(expression)
-
-    return render_template ('list.html',
-                            all_questions = searched_questions)
+    return render_template('list.html',
+                           all_questions=searched_questions)
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -210,10 +210,23 @@ def route_login():
             'password': request.form.get('password')
         }
         if ul.check_pass(login_user):
+            session['username'] = login_user['username']
             return redirect('/')
-        notice = "User is not in base"
+        notice = "User is not in base. Please sign up."
     return render_template('login.html',
-                               notice=notice)
+                           notice=notice)
+
+
+@app.route('/logout')
+def logout():
+    del session['username']
+    return redirect('/')
+
+
+@app.route('/question/<question_id>/delete', methods=['POST'])
+def route_delete_question(question_id):
+    ql.delete_question(question_id)
+    return redirect('/')
 
 
 if __name__ == '__main__':
