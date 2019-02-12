@@ -8,12 +8,12 @@
             <a class="btn btn-secondary" href='/add-question' role="button">Add question</a>
         </div>
         <div class="col align-self-end">
-            <form action="{{ form_url }}"
-                  method="post">
+            <form action='/list/search/'
+                  method="get">
                 <label for="expression">Search for:</label><br>
                 <textarea name="expression" id="expression" placeholder='What are you searching for?' cols="40"
                           value="{{expression}}"></textarea>
-                <button class="btn btn-secondary" type="submit">Search</button>
+                <button class="btn btn-secondary"  type="submit">Search</button>
             </form>
         </div>
     </div>

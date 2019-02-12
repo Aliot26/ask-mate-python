@@ -175,6 +175,15 @@ def route_edit_comment(comment_id):
                            warning=warning,
                            )
 
+@app.route('/list/search/', methods= ['GET'])
+def route_list_search():
+    expression = request.form.get('expression')
+
+    searched_questions = data_manager.search_questions_by_expression(expression)
+
+    return render_template ('list.html',
+                            all_questions = searched_questions)
+
 
 if __name__ == '__main__':
     app.secret_key = "some_key"
