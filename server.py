@@ -183,14 +183,27 @@ def route_registration():
     if request.method == "POST":
         new_user = {
             'username': request.form.get('username'),
-            'password': request.form.get('password')
+            'password': ul.hash_password(request.form.get('password'))
         }
-        exist_user = ul.check_exist_user(new_user)
-        if not exist_user:
-            ul.add_new_user(new_user)
+        if ul.add_new_user(new_user):
             return redirect('/')
         notice = "User already exists"
-    return render_template('registration.html',
+    return render_template('login.html',
+                           notice=notice)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def route_login():
+    notice = ""
+    if request.method == "POST":
+        login_user = {
+            'username': request.form.get('username'),
+            'password': request.form.get('password')
+        }
+        if ul.check_pass(login_user):
+            return redirect('/')
+        notice = "User is not in base"
+    return render_template('login.html',
                                notice=notice)
 
 
