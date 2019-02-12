@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 
 from logic import question_logic as ql
 from logic import answer_logic as al
 from logic import comment_logic as cl
+from logic import user_logic as ul
 
 app = Flask(__name__)
 
@@ -183,6 +184,25 @@ def route_list_search():
 
     return render_template ('list.html',
                             all_questions = searched_questions)
+
+
+@app.route('/registration', methods=['GET', 'POST'])
+def route_registration():
+    notice = ""
+    if request.method == "GET":
+        session['reg_status'] = "not registered"
+        return render_template('registration.html')
+    if request.method == "POST":
+        new_user = {
+            'username': request.form.get('username'),
+            'password': request.form.get('password')
+        }
+        exist_user = ul.check_exist_user(new_user)
+        if exist_user:
+            notice = "User already exists"
+            return render_template('registration.html',
+                                   notice=notice)
+
 
 
 if __name__ == '__main__':
