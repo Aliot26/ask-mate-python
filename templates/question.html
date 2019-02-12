@@ -7,7 +7,11 @@
         {{ question.message }}
         <br><br>
         <a class="btn btn-secondary" href="/question/new-answer/{{question.id}}" role="button">Add answer</a>
+        <form action="/question/{{ question['id'] }}/delete" method="post">
+        <button class="btn btn-secondary" type="submit">Delete question</button>
+    </form>
     </div>
+
     <br>
     <div class="offset">
         <table class="table table-hover">
@@ -41,5 +45,7 @@
         </table>
     </div>
 </div>
+
+
 
 {% endblock %}

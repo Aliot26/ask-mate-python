@@ -48,3 +48,12 @@ def sorting_questions(conditions):
         return sorted_data
     else:
         return []
+
+
+def delete_question(question_id):
+    try:
+        dm.delete_question(question_id)
+    except ValueError as e:
+        print(e)
+
+

@@ -229,3 +229,19 @@ def add_one_user(cursor, user):
                         })
     except psycopg2.Error as e:
         print(e)
+
+
+@db_connect.connection_handler
+def delete_question(cursor, question_id):
+    try:
+        cursor.execute("""
+                    DELETE FROM comment
+                    WHERE question_id = %(question_id)s;
+                    DELETE FROM answer
+                    WHERE question_id = %(question_id)s;
+                    DELETE FROM question
+                    WHERE id = %(question_id)s;    
+                            """,
+                       {'question_id': question_id})
+    except psycopg2.Error as e:
+        print(e)
