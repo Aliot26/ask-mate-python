@@ -198,3 +198,18 @@ def update_comment(cursor, comment):
                        {'id': comment['id'], 'message': comment['message']})
     except psycopg2.Error as e:
         print(e)
+
+
+@db_connect.connection_handler
+def get_one_user(cursor, username):
+    try:
+        cursor.execute("""
+                        SELECT id, submission_time, username, password
+                        FROM users
+                        WHERE username = %(username)s ;
+                                   """,
+                       {'username': username})
+        user = cursor.fetchone()
+        return user
+    except psycopg2.Error as e:
+        print(e)
