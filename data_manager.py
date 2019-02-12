@@ -213,3 +213,19 @@ def get_one_user(cursor, username):
         return user
     except psycopg2.Error as e:
         print(e)
+
+
+@db_connect.connection_handler
+def add_one_user(cursor, user):
+    try:
+        cursor.execute("""
+                    INSERT INTO users (submission_time, username, password)
+                    VALUES (NOW()::timestamp(0), %(username)s, %(password)s)
+                    ON CONFLICT(id) DO NOTHING
+                    RETURNING id ;
+                               """,
+                       {'username': user['username'],
+                        'password': user['password']
+                        })
+    except psycopg2.Error as e:
+        print(e)
