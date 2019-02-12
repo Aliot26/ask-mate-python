@@ -229,6 +229,12 @@ def route_delete_question(question_id):
     return redirect('/')
 
 
+@app.route('/answer/<answer_id>/delete', methods=['POST'])
+def route_delete_answer(answer_id):
+    al.delete_answer(answer_id)
+    return redirect('/')
+
+
 if __name__ == '__main__':
     app.secret_key = "some_key"
     app.run(

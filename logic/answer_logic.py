@@ -43,3 +43,10 @@ def update_answer(answer):
         return True
     else:
         return False
+
+
+def delete_answer(answer_id):
+    try:
+        dm.delete_answer(answer_id)
+    except ValueError as e:
+        print(e)

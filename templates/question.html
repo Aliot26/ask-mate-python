@@ -8,8 +8,8 @@
         <br><br>
         <a class="btn btn-secondary" href="/question/new-answer/{{question.id}}" role="button">Add answer</a>
         <form action="/question/{{ question['id'] }}/delete" method="post">
-        <button class="btn btn-secondary" type="submit">Delete question</button>
-    </form>
+            <button class="btn btn-secondary" type="submit">Delete question</button>
+        </form>
     </div>
 
     <br>
@@ -19,7 +19,8 @@
             <tr>
                 <th scope="col">Submission time</th>
                 <th scope="col">Message</th>
-                <th scope="col">Edit answer</th>
+                <th scope="col"></th>
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             {% for answer in answers %}
@@ -27,6 +28,11 @@
                 <td>{{ answer.submission_time }}</td>
                 <td><a href="/edit-answer/{{answer.id}}">{{ answer.message }}</a></td>
                 <td><a class="btn btn-secondary" href='/answer/new-comment/{{answer.id}}' role="button">Add comment</a>
+                </td>
+                <td>
+                    <form action="/answer/{{ answer['id'] }}/delete" method="post">
+                        <button class="btn btn-secondary" type="submit">Delete answer</button>
+                    </form>
                 </td>
             </tr>
             {% if all_comments %}
@@ -45,7 +51,6 @@
         </table>
     </div>
 </div>
-
 
 
 {% endblock %}
