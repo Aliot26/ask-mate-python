@@ -43,3 +43,10 @@ def update_comment(comment):
         return True
     else:
         return False
+
+
+def delete_comment(comment_id):
+    try:
+        dm.delete_comment(comment_id)
+    except ValueError as e:
+        print(e)

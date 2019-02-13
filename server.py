@@ -231,8 +231,18 @@ def route_delete_question(question_id):
 
 @app.route('/answer/<answer_id>/delete', methods=['POST'])
 def route_delete_answer(answer_id):
+    answer = al.get_one_answer(answer_id)
+    question_id = answer['question_id']
     al.delete_answer(answer_id)
-    return redirect('/')
+    return redirect('/question/{}'.format(question_id))
+
+
+@app.route('/comment/<comment_id>/delete', methods=['POST'])
+def route_delete_comment(comment_id):
+    comment = cl.get_one_comment(comment_id)
+    question_id = comment['question_id']
+    cl.delete_comment(comment_id)
+    return redirect('/question/{}'.format(question_id))
 
 
 if __name__ == '__main__':

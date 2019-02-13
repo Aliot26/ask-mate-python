@@ -259,3 +259,15 @@ def delete_answer(cursor, answer_id):
                        {'answer_id': answer_id})
     except psycopg2.Error as e:
         print(e)
+
+
+@db_connect.connection_handler
+def delete_comment(cursor, comment_id):
+    try:
+        cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id = %(comment_id)s;
+                            """,
+                       {'comment_id': comment_id})
+    except psycopg2.Error as e:
+        print(e)
