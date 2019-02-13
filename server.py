@@ -42,7 +42,6 @@ def route_add_question():
                            )
 
 
-
 @app.route('/question/<question_id>', methods=['GET'])
 def route_question(question_id):
     question = ql.get_question(question_id)
@@ -62,9 +61,11 @@ def route_add_answer(question_id):
     question = ql.get_question(question_id)
     if request.method == 'POST':
         message = request.form.get('message')
+        user_id = session['id']
         answer = {
             'message': message,
-            'question_id': question_id
+            'question_id': question_id,
+            'user_id': user_id
         }
         result = al.add_answer(answer)
         if result:

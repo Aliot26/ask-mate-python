@@ -120,12 +120,13 @@ def get_all_comments_by_question(cursor, question_id):
 def add_one_answer(cursor, answer):
     try:
         cursor.execute("""
-                        INSERT INTO answer (submission_time, question_id, message)
-                        VALUES (NOW()::timestamp(0) , %(question_id)s, %(message)s)
+                        INSERT INTO answer (submission_time, question_id, message, user_id)
+                        VALUES (NOW()::timestamp(0) , %(question_id)s, %(message)s, %(user_id)s)
                         ON CONFLICT(id) DO NOTHING;
                                    """,
                        {'question_id': answer['question_id'],
-                        'message': answer['message']
+                        'message': answer['message'],
+                        'user_id': answer['user_id']
                         })
     except psycopg2.Error as e:
         print(e)
@@ -135,8 +136,10 @@ def add_one_answer(cursor, answer):
 def get_answers(cursor, question_id):
     try:
         cursor.execute("""
-                        SELECT id, submission_time, question_id, message
-                        FROM answer
+                        SELECT a.id, a.submission_time, a.question_id, a.message, u.id AS username
+                        FROM answer AS a
+                        LEFT JOIN users AS u
+                        ON a.user_id = u.id
                         WHERE question_id = %(question_id)s 
                         ORDER BY submission_time ASC;
                                    """,
