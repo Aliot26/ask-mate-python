@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>Ask mate v 1.0</title>
+    <title>Ask mate v 3.0</title>
 </head>
 <body>
 <header class="site-header">
@@ -18,32 +18,25 @@
                 <img src="/static/AskMatelogo2.png" width="90" height="35" alt="">
             </a>
         </div>
-        {% if session['username'] %}
         <div class="container">
-            <p class="text-white">Hello {{session['username']}}</p>
-        </div>
-        {% endif %}
-        {% if not session['username'] %}
-        <div class="container">
-            <form action='/login' method="POST">
-                <input type="text" name="username" placeholder="username" value="{{ username }}" required>
-                <input type="text" name="password" placeholder="password" value="{{ password }}" required>
-                <button type="submit">Log in</button>
-            </form>
-        </div>
-        <div class="container">
-            <a class="btn btn-outline-light" role="button" color="light" href='/registration'>Create
-                Account </a>
-        </div>
-        {% else %}
-        <div class="container">
-        <a class="btn btn-outline-light" role="button" href='/logout'>Log out</a>
-        </div>
-        {% endif %}
+            {% if session['username'] %}
+                <p class="text-white ">Hello <em>{{ session['username'] }}</em></p>
+            {% endif %}
+            {% if not session['username'] %}
+                <form action='/login' method="POST">
+                    <input type="text" name="username" placeholder="username" value="{{ username }}" required>
+                    <input type="text" name="password" placeholder="password" value="{{ password }}" required>
+                    <button class="btn btn-outline-light" type="submit">Log in</button>
+                </form>
+                <a class="btn btn-outline-light" role="button" color="light" href='/registration'>Create
+                    Account </a>
+            {% else %}
+                <a class="btn btn-outline-light" role="button" href='/logout'>Log out</a>
+            {% endif %}
 
-        <!--<div class="container">-->
-        <!--<a class="btn btn-secondary" href='/logout' role="button">Log out</a>-->
-        <!--</div>-->
+        </div>
+
+
     </nav>
 </header>
 <main role="main" class="container">
