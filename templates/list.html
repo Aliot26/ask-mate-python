@@ -2,15 +2,15 @@
 {% block content %}
 &nbsp;
 <br>
-    <br>
+<br>
 
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-info nav-fill">
+<nav class="navbar navbar-expand-lg navbar-light bg-info nav-fill">
 
     <ul class="navbar-nav mr-auto">
-      <a class="nav-item active">
-        <form action="/list/sorted" method="get">
-            <button class="btn btn-sm btn-secondary" type="submit" value="Submit">Sort</button>
+        <a class="nav-item active">
+            <form action="/list/sorted" method="get">
+                <button class="btn btn-sm btn-secondary" type="submit" value="Submit">Sort</button>
                 <select id="attribute" name="attribute">
                     <option value="submission_time">Time</option>
                     <option value="title">Title</option>
@@ -21,24 +21,25 @@
                     <option value="desc">Desc</option>
                 </select>
             </form>
-      </a>
+        </a>
     </ul>
-     <a class="nav-item">
-         <a class="btn btn-secondary"  href='/add-question' role="button">Add question</a>
-     </a>
+    <a class="nav-item">
+        <a class="btn btn-secondary" href='/add-question' role="button">Add question</a>
+    </a>
 
-    <form class="form-inline my-2 my-lg-0"action='/list/search/'
-                  method="get">
-      <input class="form-control mr-sm-2" id="expression" type="search" placeholder="Search for..." aria-label="expression" value="{{expression}}">
-      <button class="btn btn-sm btn-secondary" type="submit">Search</button>
+    <form class="form-inline my-2 my-lg-0" action='/list/search/'
+          method="get">
+        <input class="form-control mr-sm-2" id="expression" type="search" placeholder="Search for..."
+               aria-label="expression" value="{{expression}}">
+        <button class="btn btn-sm btn-secondary" type="submit">Search</button>
     </form>
-  </div>
+    </div>
 </nav>
 
 
-    <br><br>
+<br><br>
 
-<div class="col" align =" self-end">
+<div class="col" align=" self-end">
     <table class="table table-hover">
         <thead class="thead-light">
         <tr>
@@ -60,7 +61,13 @@
         {% endfor %}
 
     </table>
-    {% if warning%}<p>{{warning}}</p>{%endif%}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 </div>
 
 

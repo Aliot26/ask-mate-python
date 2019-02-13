@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 
 from logic import question_logic as ql
 from logic import answer_logic as al
@@ -12,19 +12,16 @@ app.secret_key = "waw"
 @app.route('/')
 @app.route('/list')
 def route_list():
-    warning = ""
     all_questions = ql.get_all_question()
     if not all_questions:
-        warning = "No data"
+        flash('No data')
     return render_template('list.html',
-                           all_questions=all_questions,
-                           warning=warning
+                           all_questions=all_questions
                            )
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
-    warning = ""
     if request.method == 'POST':
         title = request.form.get('title')
         message = request.form.get('message')
@@ -36,12 +33,11 @@ def route_add_question():
         if result:
             return redirect('/')
         else:
-            warning = "Please, fill in form correctly"
+            flash("Please, fill in form correctly")
     return render_template('edit.html',
                            form_url=url_for('route_add_question'),
                            page_title='Add Question',
-                           button_title='Submit question',
-                           warning=warning
+                           button_title='Submit question'
                            )
 
 
@@ -61,7 +57,6 @@ def route_question(question_id):
 
 @app.route('/question/new-answer/<question_id>', methods=['GET', 'POST'])
 def route_add_answer(question_id):
-    warning = ""
     question = ql.get_question(question_id)
     if request.method == 'POST':
         message = request.form.get('message')
@@ -73,14 +68,13 @@ def route_add_answer(question_id):
         if result:
             return redirect('/question/{}'.format(question_id))
         else:
-            warning = "Please, fill in form correctly"
+            flash("Please, fill in form correctly")
     return render_template('answer.html',
                            page_title='Add Answer',
                            button_title='Submit answer',
                            form_url=url_for('route_add_answer', question_id=question_id),
                            question_id=question_id,
-                           question=question,
-                           warning=warning
+                           question=question
                            )
 
 
@@ -103,7 +97,6 @@ def route_list_sorted():
 
 @app.route('/edit-answer/<id>', methods=['GET', 'POST'])
 def route_edit_answer(id):
-    warning = ""
     answer = al.get_one_answer(id)
     question_id = answer['question_id']
     question = ql.get_question(question_id)
@@ -117,19 +110,17 @@ def route_edit_answer(id):
         if al.update_answer(answer):
             return redirect('/question/{}'.format(question_id))
         else:
-            warning = "Please, fill in form correctly"
+            flash("Please, fill in form correctly")
     return render_template('answer.html',
                            page_title='Add Answer',
                            button_title='Submit answer',
                            edit_answer=answer,
-                           question=question,
-                           warning=warning
+                           question=question
                            )
 
 
 @app.route('/answer/new-comment/<answer_id>', methods=['GET', 'POST'])
 def route_add_comment(answer_id):
-    warning = ""
     answer = al.get_one_answer(answer_id)
     question_id = answer['question_id']
     if request.method == 'POST':
@@ -143,20 +134,18 @@ def route_add_comment(answer_id):
         if result:
             return redirect('/question/{}'.format(comment['question_id']))
         else:
-            warning = "Please, fill in form correctly"
+            flash("Please, fill in form correctly")
     return render_template('comment.html',
                            page_title='Add comment',
                            button_title='Submit Comment',
                            form_url=url_for('route_add_comment', answer_id=answer_id),
                            answer_id=answer_id,
-                           answer=answer,
-                           warning=warning
+                           answer=answer
                            )
 
 
 @app.route('/edit-comment/<comment_id>', methods=['GET', 'POST'])
 def route_edit_comment(comment_id):
-    warning = ""
     comment = cl.get_one_comment(comment_id)
     question_id = comment['question_id']
     if request.method == "POST":
@@ -169,12 +158,11 @@ def route_edit_comment(comment_id):
         if cl.update_comment(comment):
             return redirect('/question/{}'.format(question_id))
         else:
-            warning = "Please, fill in form correctly"
+            flash("Please, fill in form correctly")
     return render_template('comment.html',
                            page_title='Edit comment',
                            button_title='Submit comment',
-                           edit_comment=comment,
-                           warning=warning,
+                           edit_comment=comment
                            )
 
 
@@ -188,7 +176,6 @@ def route_list_search():
 
 @app.route('/registration', methods=['GET', 'POST'])
 def route_registration():
-    notice = ""
     if request.method == "POST":
         new_user = {
             'username': request.form.get('username'),
@@ -196,14 +183,12 @@ def route_registration():
         }
         if ul.add_new_user(new_user):
             return redirect('/')
-        notice = "User already exists"
-    return render_template('login.html',
-                           notice=notice)
+        flash("User already exists")
+    return render_template('login.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def route_login():
-    notice = ""
     if request.method == "POST":
         login_user = {
             'username': request.form.get('username'),
@@ -212,9 +197,8 @@ def route_login():
         if ul.check_pass(login_user):
             session['username'] = login_user['username']
             return redirect('/')
-        notice = "User is not in base. Please sign up."
-    return render_template('login.html',
-                           notice=notice)
+        flash("User is not in base. Please sign up.")
+    return render_template('login.html')
 
 
 @app.route('/logout')
