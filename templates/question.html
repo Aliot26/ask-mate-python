@@ -36,6 +36,7 @@
                             <th scope="col"></th>
                             <th scope="col">Delete</th>
                             {% endif %}
+                            <th scope="col">Author</th>
                         </tr>
                         </thead>
                         {% for answer in answers %}
@@ -58,6 +59,7 @@
                                 </form>
                             </td>
                             {% endif %}
+                            <td></td>
                         </tr>
                         {% if all_comments %}
                         {% for comment in all_comments %}
@@ -80,6 +82,7 @@
                                 </form>
                             </td>
                             {% endif %}
+                            <td></td>
                             {% endif %}
                         </tr>
                         {% endfor %}

@@ -32,3 +32,9 @@ def check_pass(login_user):
         if verify:
             return True
     return False
+
+
+def get_user(username):
+    if check_exist_user(username):
+        return dm.get_one_user(username)
+    return []

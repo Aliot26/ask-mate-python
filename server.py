@@ -24,9 +24,11 @@ def route_add_question():
     if request.method == 'POST':
         title = request.form.get('title')
         message = request.form.get('message')
+        user_id = session['id']
         question = {
             'title': title,
-            'message': message
+            'message': message,
+            'user_id': user_id
         }
         result = ql.add_one_question(question)
         if result:
@@ -196,6 +198,8 @@ def route_login():
     }
     if ul.check_pass(login_user):
         session['username'] = login_user['username']
+        user_data = ul.get_user(session.get('username'))
+        session['id'] = user_data['id']
         return redirect('/')
     if ul.check_exist_user(username=login_user['username']):
         flash("Incorrect password")

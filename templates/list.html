@@ -51,6 +51,7 @@
             <th scope="col">Vote number</th> -->
             <th scope="col">Title</th>
             <th scope="col">Message</th>
+            <th scope="col">Author</th>
             <!-- <th scope="col">Image</th> -->
         </tr>
         </thead>
@@ -59,6 +60,7 @@
             <td>{{ question['submission_time'] }}</td>
             <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
             <td>{{ question.message }}</td>
+            <td>{{ question.username }}</td>
         </tr>
         {% endfor %}
     </table>

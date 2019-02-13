@@ -15,10 +15,12 @@ def add_one_question(question):
     title = fv.check_is_not_empty(title)
     message = fv.remove_parentheses(question['message'])
     message = fv.check_is_not_empty(message)
+    user_id = question['user_id']
     if title and message:
         question = {
             'title': title,
-            'message': message
+            'message': message,
+            'user_id': user_id
         }
         dm.add_one_question(question)
         return True

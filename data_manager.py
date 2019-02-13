@@ -7,8 +7,10 @@ from psycopg2.extensions import AsIs
 def get_all_questions(cursor):
     try:
         cursor.execute("""
-                SELECT id, submission_time, title, message
-                FROM question
+                SELECT q.id, q.submission_time, q.title, q.message, u.username as username
+                FROM question AS q
+                LEFT JOIN users AS u
+                ON q.user_id = u.id
                 ORDER BY submission_time DESC;
                            """)
         all_question = cursor.fetchall()
@@ -22,13 +24,14 @@ def get_all_questions(cursor):
 def add_one_question(cursor, question):
     try:
         cursor.execute("""
-                    INSERT INTO question (submission_time, title, message)
-                    VALUES (NOW()::timestamp(0), %(title)s, %(message)s)
+                    INSERT INTO question (submission_time, title, message, user_id)
+                    VALUES (NOW()::timestamp(0), %(title)s, %(message)s, %(user_id)s)
                     ON CONFLICT(id) DO NOTHING
                     RETURNING id ;
                                """,
                        {'title': question['title'],
-                        'message': question['message']
+                        'message': question['message'],
+                        'user_id': question['user_id']
                         })
     except psycopg2.Error as e:
         print(e)
