@@ -2,11 +2,16 @@
 {% block content %}
 &nbsp;
 <br>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<p>{{message}}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
 <br>
 
-
 <nav class="navbar navbar-expand-lg navbar-light bg-info nav-fill">
-
     <ul class="navbar-nav mr-auto">
         <a class="nav-item active">
             <form action="/list/sorted" method="get">
@@ -23,7 +28,7 @@
             </form>
         </a>
     </ul>
-    {% if session['username'] %}
+    {% if session['username']%}
     <a class="nav-item">
         <a class="btn btn-secondary" href='/add-question' role="button">Add question</a>
     </a>
@@ -36,10 +41,7 @@
     </form>
     </div>
 </nav>
-
-
 <br><br>
-
 <div class="col" align=" self-end">
     <table class="table table-hover">
         <thead class="thead-light">
@@ -50,7 +52,6 @@
             <th scope="col">Title</th>
             <th scope="col">Message</th>
             <!-- <th scope="col">Image</th> -->
-
         </tr>
         </thead>
         {% for question in all_questions %}
@@ -60,16 +61,6 @@
             <td>{{ question.message }}</td>
         </tr>
         {% endfor %}
-
     </table>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <p>{{message}}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
 </div>
-
-
 {% endblock%}

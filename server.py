@@ -185,7 +185,7 @@ def route_registration():
         if ul.add_new_user(new_user):
             return redirect('/')
         flash("User already exists")
-    return render_template('login.html')
+    return render_template('register_form.html')
 
 
 @app.route('/login', methods=['POST'])
@@ -197,8 +197,11 @@ def route_login():
     if ul.check_pass(login_user):
         session['username'] = login_user['username']
         return redirect('/')
+    if ul.check_exist_user(username=login_user['username']):
+        flash("Incorrect password")
+        return redirect('/')
     flash("User is not in base. Please sign up.")
-    return render_template('login.html')
+    return render_template('register_form.html')
 
 
 @app.route('/logout')
