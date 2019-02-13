@@ -187,17 +187,16 @@ def route_registration():
     return render_template('login.html')
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def route_login():
-    if request.method == "POST":
-        login_user = {
-            'username': request.form.get('username'),
-            'password': request.form.get('password')
-        }
-        if ul.check_pass(login_user):
-            session['username'] = login_user['username']
-            return redirect('/')
-        flash("User is not in base. Please sign up.")
+    login_user = {
+        'username': request.form.get('username'),
+        'password': request.form.get('password')
+    }
+    if ul.check_pass(login_user):
+        session['username'] = login_user['username']
+        return redirect('/')
+    flash("User is not in base. Please sign up.")
     return render_template('login.html')
 
 
