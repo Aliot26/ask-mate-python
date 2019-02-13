@@ -21,6 +21,6 @@ def remove_parentheses(string):
 
 
 def check_is_not_empty(string):
-    if string == "":
+    if len(string) == 0 or string.isspace():
         return False
     return string
