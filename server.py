@@ -6,7 +6,7 @@ from logic import comment_logic as cl
 from logic import user_logic as ul
 
 app = Flask(__name__)
-
+app.secret_key = "waw"
 
 @app.route('/')
 @app.route('/list')
@@ -38,6 +38,7 @@ def route_add_question():
                            page_title='Add Question',
                            button_title='Submit question'
                            )
+
 
 
 @app.route('/question/<question_id>', methods=['GET'])

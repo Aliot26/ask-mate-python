@@ -23,10 +23,11 @@
             </form>
         </a>
     </ul>
+    {% if session['username'] %}
     <a class="nav-item">
         <a class="btn btn-secondary" href='/add-question' role="button">Add question</a>
     </a>
-
+    {% endif %}
     <form class="form-inline my-2 my-lg-0" action='/list/search/'
           method="get">
         <input class="form-control mr-sm-2" id="expression" type="search" placeholder="Search for..."
