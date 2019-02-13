@@ -10,7 +10,13 @@
     </div>
 </div>
 <div class="container">
-    {% if warning%}<p>{{warning}}</p>{%endif%}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <p>{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 <form action="{{ form_url }}" method="post">
         <p>
             <label for="message">Your answer</label><br>

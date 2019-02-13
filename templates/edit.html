@@ -3,7 +3,13 @@
 <br>
 
 <div class="container">
-    {% if warning%}<p>{{warning}}</p>{%endif%}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <p>{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <form action="{{ form_url }}" method="post">
         <p><label for="title">Title:</label><br>
             <textarea id="title" name="title" placeholder="Make it short and concrete!" rows="1" cols="40" type="text"
@@ -11,8 +17,10 @@
 
         <p><label for="message">Your question:</label><br>
             <textarea id="message" name="message" placeholder="Enter your detailed question" rows="5" cols="60"
-                      required=on></textarea></p>
+                      required=on>
 
+            </textarea>
+        </p>
 
         <div class="custom-file">
             <input type="file" class="custom-file-input" name='image' id="inputGroupFile01">

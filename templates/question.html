@@ -42,7 +42,11 @@
                 <td></td>
                 <td>{{ comment.submission_time }}</td>
                 <td><a href="/edit-comment/{{comment.id}}">{{ comment.message}}</a></td>
-                <td></td>
+                <td>
+                    <form action="/comment/{{ comment['id'] }}/delete" method="post">
+                        <button class="btn btn-secondary" type="submit">Delete comment</button>
+                    </form>
+                </td>
                 {% endif %}
             </tr>
             {% endfor %}

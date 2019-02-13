@@ -6,6 +6,7 @@ def check_exist_user(username):
     user_exist = dm.get_one_user(username)
     if user_exist:
         return user_exist
+    return False
 
 
 def hash_password(password):
@@ -25,7 +26,9 @@ def check_pass(login_user):
     username = login_user['username']
     pass_from_form = login_user['password']
     user_from_base = check_exist_user(username)
-    pass_from_base = user_from_base['password']
     if user_from_base:
+        pass_from_base = user_from_base['password']
         verify = pm.verify_password(pass_from_form, pass_from_base)
-    return verify
+        if verify:
+            return True
+    return False
