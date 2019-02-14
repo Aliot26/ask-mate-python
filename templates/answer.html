@@ -20,7 +20,7 @@
 <form action="{{ form_url }}" method="post">
         <p>
             <label for="message">Your answer</label><br>
-            <textarea id="message" name="message" placeholder="Enter your answer here" rows="5" cols="60"
+            <textarea id="message" name="message" autofocus placeholder="Enter your answer here" rows="5" cols="60"
                         required=on>{% if edit_answer %}{{ edit_answer['message'] }}{% endif %}</textarea>
         </p>
   <!--<div class="custom-file">

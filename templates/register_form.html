@@ -13,8 +13,8 @@
         </div>
         <div class="card-body">
             <form action='/registration' method="POST">
-                <input type="text" name="username" placeholder="username" value="{{ username }}" required>
-                <input type="text" name="password" placeholder="password" value="{{ password }}" required>
+                <input type="text" name="username" placeholder="username" autofocus value="{{ username }}" required>
+                <input type="password" name="password" placeholder="password" value="{{ password }}" required>
                 <br><br>
                 <button class="btn btn-info" type="submit">Sign up</button>
             </form>
