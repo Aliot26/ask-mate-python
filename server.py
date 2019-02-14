@@ -188,6 +188,9 @@ def route_registration():
             'password': ul.hash_password(request.form.get('password'))
         }
         if ul.add_new_user(new_user):
+            session['username'] = new_user['username']
+            user_data = ul.get_user(session.get('username'))
+            session['id'] = user_data['id']
             return redirect('/')
         flash("User already exists")
     return render_template('register_form.html')
