@@ -86,14 +86,15 @@ def get_comment_by_id(cursor, id):
 def add_one_comment(cursor, comment):
     try:
         cursor.execute("""
-                    INSERT INTO comment (submission_time, question_id, answer_id, message)
-                    VALUES (NOW()::timestamp(0), %(question_id)s, %(answer_id)s, %(message)s)
+                    INSERT INTO comment (submission_time, question_id, answer_id, message, user_id)
+                    VALUES (NOW()::timestamp(0), %(question_id)s, %(answer_id)s, %(message)s, %(user_id)s)
                     ON CONFLICT(id) DO NOTHING
                     RETURNING id;
                                """,
                        {'question_id': comment['question_id'],
                         'answer_id': comment['answer_id'],
-                        'message': comment['message']
+                        'message': comment['message'],
+                        'user_id': comment['user_id']
                         })
     except psycopg2.Error as e:
         print(e)
@@ -103,8 +104,10 @@ def add_one_comment(cursor, comment):
 def get_all_comments_by_question(cursor, question_id):
     try:
         cursor.execute("""
-                SELECT *
-                FROM comment
+                SELECT  c.id, c.submission_time, c.question_id, c.answer_id, c.message, u.username AS username
+                FROM comment AS c 
+                LEFT JOIN users AS u
+                ON c.user_id = u.id
                 WHERE question_id = %(question_id)s 
                 ORDER BY submission_time DESC;
                 """,
@@ -136,7 +139,7 @@ def add_one_answer(cursor, answer):
 def get_answers(cursor, question_id):
     try:
         cursor.execute("""
-                        SELECT a.id, a.submission_time, a.question_id, a.message, u.id AS username
+                        SELECT a.id, a.submission_time, a.question_id, a.message, u.username AS username
                         FROM answer AS a
                         LEFT JOIN users AS u
                         ON a.user_id = u.id
@@ -169,7 +172,7 @@ def sort_questions(cursor, conditions):
 def get_one_answer(cursor, id):
     try:
         cursor.execute("""
-                        SELECT id, submission_time, question_id, message
+                        SELECT id, submission_time, question_id, message, user_id
                         FROM answer
                         WHERE id = %(id)s ;
                                    """,

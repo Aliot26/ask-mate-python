@@ -13,7 +13,7 @@ def get_all_comments_by_question(question_id):
 def add_comment(comment):
     message = fv.remove_parentheses(comment['message'])
     message = fv.check_is_not_empty(message)
-    if message:
+    if message :
         comment_new = {
             'message': message
         }

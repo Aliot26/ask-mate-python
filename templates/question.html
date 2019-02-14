@@ -43,7 +43,7 @@
                         <tr>
                             <td>{{ answer.submission_time }}</td>
                             <td>
-                                {% if session['username'] %}
+                                {% if answer['username'] == session['username'] %}
                                 <a href="/edit-answer/{{ answer.id }}">{{ answer.message }}</a>
                                 {% else %}
                                 {{ answer.message }}
@@ -53,38 +53,48 @@
                             <td><a class="btn btn-secondary" href='/answer/new-comment/{{ answer.id }}'
                                    role="button">Add comment</a>
                             </td>
+                            {% if answer['username'] == session['username'] %}
                             <td>
                                 <form action="/answer/{{ answer['id'] }}/delete" method="post">
                                     <button class="btn btn-secondary" type="submit">Delete answer</button>
                                 </form>
                             </td>
+                            {% else %}
+                            <td></td>
+                            {% endif %}
+                            {% else %}
+                            <td></td>
                             {% endif %}
                             <td>{{answer.username }}</td>
                         </tr>
+
                         {% if all_comments %}
                         {% for comment in all_comments %}
+                        {% if comment.answer_id == answer.id %}
                         <tr class="table-secondary">
-                            {% if comment.answer_id == answer.id %}
+
                             <td>{{ comment.submission_time }}</td>
                             <td>
-                                {% if session['username'] %}
+                                {% if comment.username == session['username']%}
                                 <a href="/edit-comment/{{ comment.id }}">{{ comment.message }}</a>
                                 {% else %}
-                                {{ answer.message }}
+                                {{ comment.message }}
                                 {% endif %}
                             </td>
-                            {% if session['username'] %}
                             <td></td>
+                            {% if comment.username == session['username']%}
                             <td>
                                 <form action="/comment/{{ comment['id'] }}/delete" method="post">
                                     <button class="btn btn-secondary" type="submit">Delete comment
                                     </button>
                                 </form>
                             </td>
-                            {% endif %}
+                            {% else %}
                             <td></td>
                             {% endif %}
+                            <td>{{comment.username }}</td>
                         </tr>
+                        {% endif %}
                         {% endfor %}
                         {% endif %}
                         {% endfor %}

@@ -126,12 +126,14 @@ def route_edit_answer(id):
 def route_add_comment(answer_id):
     answer = al.get_one_answer(answer_id)
     question_id = answer['question_id']
+    user_id = session['id']
     if request.method == 'POST':
         message = request.form.get('message')
         comment = {
             'message': message,
             'question_id': question_id,
-            'answer_id': answer_id
+            'answer_id': answer_id,
+            'user_id': user_id
         }
         result = cl.add_comment(comment)
         if result:
