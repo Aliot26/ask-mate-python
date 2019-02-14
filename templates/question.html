@@ -50,12 +50,12 @@
                                 {% endif %}
                             </td>
                             {% if session['username'] %}
-                            <td><a class="btn btn-secondary" href='/answer/new-comment/{{ answer.id }}'
+                            <td><a class="btn btn-sm btn-info" href='/answer/new-comment/{{ answer.id }}'
                                    role="button">Add comment</a>
                             </td>
                             <td>
                                 <form action="/answer/{{ answer['id'] }}/delete" method="post">
-                                    <button class="btn btn-secondary" type="submit">Delete answer</button>
+                                    <button class="btn btn-sm btn-info" type="submit">Delete answer</button>
                                 </form>
                             </td>
                             {% endif %}
@@ -77,7 +77,7 @@
                             <td></td>
                             <td>
                                 <form action="/comment/{{ comment['id'] }}/delete" method="post">
-                                    <button class="btn btn-secondary" type="submit">Delete comment
+                                    <button class="btn btn-sm btn-info" type="submit">Delete comment
                                     </button>
                                 </form>
                             </td>
